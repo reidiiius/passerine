@@ -1,10 +1,24 @@
 # Passerine
 Ornithology
 
-### Usage
-command line:
+---
 
-    tclsh syrinx.tcl n0
+### Download
+
+    git clone https://github.com/reidiiius/passerine.git
+
+---
+
+### Usage
+command line
+
+    cd passerine && tclsh syrinx.tcl n0
+
+search example
+
+    tclsh syrinx.tcl 56
+
+---
 
 ### Distribution
 MIT License
