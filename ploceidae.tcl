@@ -8,39 +8,47 @@ set An 45
 set En 20
 set Bn 55
 
-proc bassTuning_7 {clade flock Fn Cn Gn Dn An En Bn} {
+set circa [clock seconds]
+
+proc headstock {str tune} {
+  return [
+    concat [string range $str $tune end] [string range $str 0 $tune-1]
+  ]
+}
+
+proc beadgcf {clade circa flock Fn Cn Gn Dn An En Bn} {
   puts ""
-  puts [concat $clade-b[clock seconds]]
-  puts [concat [string range $flock $Fn end] [string range $flock 0 $Fn-1]]
-  puts [concat [string range $flock $Cn end] [string range $flock 0 $Cn-1]]
-  puts [concat [string range $flock $Gn end] [string range $flock 0 $Gn-1]]
-  puts [concat [string range $flock $Dn end] [string range $flock 0 $Dn-1]]
-  puts [concat [string range $flock $An end] [string range $flock 0 $An-1]]
-  puts [concat [string range $flock $En end] [string range $flock 0 $En-1]]
-  puts [concat [string range $flock $Bn end] [string range $flock 0 $Bn-1]]
+  puts [format "\t%s" "$clade \b-b \b$circa"]
+  puts [format "\t%s" [headstock $flock $Fn]]
+  puts [format "\t%s" [headstock $flock $Cn]]
+  puts [format "\t%s" [headstock $flock $Gn]]
+  puts [format "\t%s" [headstock $flock $Dn]]
+  puts [format "\t%s" [headstock $flock $An]]
+  puts [format "\t%s" [headstock $flock $En]]
+  puts [format "\t%s" [headstock $flock $Bn]]
   puts ""
 }
 
-proc guitarTuning_6 {clade flock Cn Gn Dn An En Bn} {
+proc eadgbe {clade circa flock Cn Gn Dn An En Bn} {
   puts ""
-  puts [concat $clade-g[clock seconds]]
-  puts [concat [string range $flock $En end] [string range $flock 0 $En-1]]
-  puts [concat [string range $flock $Bn end] [string range $flock 0 $Bn-1]]
-  puts [concat [string range $flock $Gn end] [string range $flock 0 $Gn-1]]
-  puts [concat [string range $flock $Dn end] [string range $flock 0 $Dn-1]]
-  puts [concat [string range $flock $An end] [string range $flock 0 $An-1]]
-  puts [concat [string range $flock $En end] [string range $flock 0 $En-1]]
+  puts [format "\t%s" "$clade \b-g \b$circa"]
+  puts [format "\t%s" [headstock $flock $En]]
+  puts [format "\t%s" [headstock $flock $Bn]]
+  puts [format "\t%s" [headstock $flock $Gn]]
+  puts [format "\t%s" [headstock $flock $Dn]]
+  puts [format "\t%s" [headstock $flock $An]]
+  puts [format "\t%s" [headstock $flock $En]]
   puts ""
 }
 
-proc celloTuning_5 {clade flock Cn Gn Dn An En} {
+proc cgdae {clade circa flock Cn Gn Dn An En} {
   puts ""
-  puts [concat $clade-c[clock seconds]]
-  puts [concat [string range $flock $En end] [string range $flock 0 $En-1]]
-  puts [concat [string range $flock $An end] [string range $flock 0 $An-1]]
-  puts [concat [string range $flock $Dn end] [string range $flock 0 $Dn-1]]
-  puts [concat [string range $flock $Gn end] [string range $flock 0 $Gn-1]]
-  puts [concat [string range $flock $Cn end] [string range $flock 0 $Cn-1]]
+  puts [format "\t%s" "$clade \b-c \b$circa"]
+  puts [format "\t%s" [headstock $flock $En]]
+  puts [format "\t%s" [headstock $flock $An]]
+  puts [format "\t%s" [headstock $flock $Dn]]
+  puts [format "\t%s" [headstock $flock $Gn]]
+  puts [format "\t%s" [headstock $flock $Cn]]
   puts ""
 }
 

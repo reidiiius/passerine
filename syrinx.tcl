@@ -4,17 +4,23 @@ source estrildidae.tcl
 source ploceidae.tcl
 
 if {$argc eq 0 || ![info exists oscines($argv)]} then {
-  set i 0
   list menu
   foreach clade [lsort -ascii [array names oscines]] {
     lappend menu $clade
-    incr i
   }
   set nest [lsearch -all -inline $menu *$argv*]
-  if {$nest != 0} {
-    puts [join [concat $nest ?] "\n"]
+  if {[llength $nest] > 0} {
+    for {set i 0} {$i < [llength $nest]} {incr i} {
+      set pluma [lindex $nest $i]
+      if {$i % 7 == 0} {
+        puts -nonewline [format "\n\t%s" $pluma]
+      } else {
+        puts -nonewline [format "\t%s" $pluma]
+      }
+    }
+    puts "\n"
   }
-  exit
+  exit 0
 }
 
 set clade $argv
@@ -22,15 +28,15 @@ set flock $oscines($clade)
 
   puts ""
 
-  guitarTuning_6 $clade $flock $Cn $Gn $Dn $An $En $Bn
+  eadgbe $clade $circa $flock $Cn $Gn $Dn $An $En $Bn
 
-  celloTuning_5 $clade $flock $Cn $Gn $Dn $An $En
+  cgdae $clade $circa $flock $Cn $Gn $Dn $An $En
 
-#  bassTuning_7 $clade $flock $Fn $Cn $Gn $Dn $An $En $Bn
+#  beadgcf $clade $circa $flock $Fn $Cn $Gn $Dn $An $En $Bn
 
   puts ""
 
-unset oscines clade flock Fn Cn Gn Dn An En Bn
+unset oscines clade circa flock Fn Cn Gn Dn An En Bn
 
-exit
+exit 0
 
