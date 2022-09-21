@@ -12,7 +12,7 @@ Ornithology
 ### Usage
 command line
 
-    cd passerine && tclsh syrinx.tcl n0
+    cd passerine && tclsh syrinx.tcl n0 eadgbe
 
 search example
 

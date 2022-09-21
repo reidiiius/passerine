@@ -1,6 +1,6 @@
 #!/usr/bin/tclsh
 
-proc FingerBoard {qp str} {
+proc FingerBoard {kid str oud} {
 
   set Bj 50
   set Fn 25
@@ -12,7 +12,7 @@ proc FingerBoard {qp str} {
   set Bn 55
   set Fk 30
 
-  set circa [clock seconds]
+  set circa [clock microseconds]
 
   proc headstock {str peg} {
     return [
@@ -20,9 +20,9 @@ proc FingerBoard {qp str} {
     ]
   }
 
-  proc beadgcf {qp circa str Fn Cn Gn Dn An En Bn} {
+  proc beadgcf {kid circa str Fn Cn Gn Dn An En Bn} {
     puts ""
-    puts [format "\t%s" "$qp \b-beadgcf- \b$circa"]
+    puts [format "\t%s" "$kid \b-beadgcf-i \b$circa"]
     puts [format "\t%s" [headstock $str $Fn]]
     puts [format "\t%s" [headstock $str $Cn]]
     puts [format "\t%s" [headstock $str $Gn]]
@@ -33,9 +33,9 @@ proc FingerBoard {qp str} {
     puts ""
   }
 
-  proc bfbfb {qp circa str Fn Bn} {
+  proc bfbfb {kid circa str Fn Bn} {
     puts ""
-    puts [format "\t%s" "$qp \b-bfbfb- \b$circa"]
+    puts [format "\t%s" "$kid \b-bfbfb-i \b$circa"]
     puts [format "\t%s" [headstock $str $Bn]]
     puts [format "\t%s" [headstock $str $Fn]]
     puts [format "\t%s" [headstock $str $Bn]]
@@ -44,9 +44,9 @@ proc FingerBoard {qp str} {
     puts ""
   }
 
-  proc cgdae {qp circa str Cn Gn Dn An En} {
+  proc cgdae {kid circa str Cn Gn Dn An En} {
     puts ""
-    puts [format "\t%s" "$qp \b-cgdae- \b$circa"]
+    puts [format "\t%s" "$kid \b-cgdae-i \b$circa"]
     puts [format "\t%s" [headstock $str $En]]
     puts [format "\t%s" [headstock $str $An]]
     puts [format "\t%s" [headstock $str $Dn]]
@@ -55,9 +55,9 @@ proc FingerBoard {qp str} {
     puts ""
   }
 
-  proc eadgbe {qp circa str Cn Gn Dn An En Bn} {
+  proc eadgbe {kid circa str Cn Gn Dn An En Bn} {
     puts ""
-    puts [format "\t%s" "$qp \b-eadgbe- \b$circa"]
+    puts [format "\t%s" "$kid \b-eadgbe-i \b$circa"]
     puts [format "\t%s" [headstock $str $En]]
     puts [format "\t%s" [headstock $str $Bn]]
     puts [format "\t%s" [headstock $str $Gn]]
@@ -67,9 +67,9 @@ proc FingerBoard {qp str} {
     puts ""
   }
 
-  proc fkbjdn {qp circa str Bj Dn Fk} {
+  proc fkbjdn {kid circa str Bj Dn Fk} {
     puts ""
-    puts [format "\t%s" "$qp \b-fkbjdn- \b$circa"]
+    puts [format "\t%s" "$kid \b-fkbjdn-i \b$circa"]
     puts [format "\t%s" [headstock $str $Dn]]
     puts [format "\t%s" [headstock $str $Bj]]
     puts [format "\t%s" [headstock $str $Fk]]
@@ -81,15 +81,32 @@ proc FingerBoard {qp str} {
 
   puts ""
 
-  eadgbe $qp $circa $str $Cn $Gn $Dn $An $En $Bn
+  switch $oud {
+    beadgcf {
+      $oud $kid $circa $str $Fn $Cn $Gn $Dn $An $En $Bn
+    }
+    bfbfb {
+      $oud $kid $circa $str $Fn $Bn
+    }
+    cgdae {
+      $oud $kid $circa $str $Cn $Gn $Dn $An $En
+    }
+    eadgbe {
+      $oud $kid $circa $str $Cn $Gn $Dn $An $En $Bn
+    }
+    fkbjdn {
+      $oud $kid $circa $str $Bj $Dn $Fk
+    }
+    default {
+      set harp {beadgcf bfbfb cgdae eadgbe fkbjdn}
+      set xmpl {tclsh syrinx.tcl n0 eadgbe}
 
-  cgdae $qp $circa $str $Cn $Gn $Dn $An $En
-
-#  bfbfb $qp $circa $str $Fn $Bn
-
-#  beadgcf $qp $circa $str $Fn $Cn $Gn $Dn $An $En $Bn
-
-#  fkbjdn $qp $circa $str $Bj $Dn $Fk
+      puts [
+        format "Tunning:\n\t%s\n\nExample:\n\t%s" $harp $xmpl
+      ]
+      unset harp xmpl
+    }
+  }
 
   puts ""
 
