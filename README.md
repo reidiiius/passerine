@@ -10,9 +10,18 @@ Ornithology
 ---
 
 ### Usage
-command line
+command-line
 
-    cd passerine && tclsh syrinx.tcl n0 eadgbe
+    cd passerine/
+
+
+    tclsh syrinx.tcl
+
+
+    tclsh syrinx.tcl n0
+
+
+    tclsh syrinx.tcl n0 eadgbe
 
 search example
 

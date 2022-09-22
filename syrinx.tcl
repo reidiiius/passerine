@@ -3,6 +3,8 @@
 source estrildidae.tcl
 source ploceidae.tcl
 
+set oscines(z0) [lrepeat 12 "____"]
+
 if {$argc eq 0 || ![info exists oscines([lindex $argv 0])]} then {
   set interim [list ]
 
