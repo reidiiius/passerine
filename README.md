@@ -14,12 +14,15 @@ command-line
 
     cd passerine/
 
+:
 
     tclsh syrinx.tcl
 
+:
 
     tclsh syrinx.tcl n0
 
+:
 
     tclsh syrinx.tcl n0 eadgbe
 
