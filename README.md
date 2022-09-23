@@ -20,11 +20,11 @@ command-line
 
 :
 
-    tclsh syrinx.tcl n0
+    tclsh syrinx.tcl help
 
 :
 
-    tclsh syrinx.tcl n0 eadgbe
+    tclsh syrinx.tcl eadgbe n0 j3
 
 search example
 

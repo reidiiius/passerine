@@ -1,52 +1,102 @@
 #!/usr/bin/tclsh
 
-source estrildidae.tcl
-source ploceidae.tcl
+namespace eval Syrinx {
 
-set oscines(z0) [lrepeat 12 "____"]
-
-if {$argc eq 0 || ![info exists oscines([lindex $argv 0])]} then {
-  set interim [list ]
-
-  foreach signat [lsort -ascii [array names oscines]] {
-    lappend interim $signat
+  source estrildidae.tcl
+  if {[namespace exists Estrildidae]} {
+     namespace upvar Estrildidae oscines lyrebird
+  } else {
+    puts stderr "Estrildidae absent!"
+    exit 1
   }
-  set clade [lsearch -all -inline $interim *$argv*]
 
-  if {[llength $clade] > 0} {
-    for {set i 0} {$i < [llength $clade]} {incr i} {
-      set pluma [lindex $clade $i]
+  if {[catch {set lyrebird(z0) [lrepeat 12 "____"]} errs] } {
+    set hint "%s, failed to set lyrebird, %s"
+    puts stderr [format $hint $::argv0 $errs]
+    exit 1
+  }
 
-      if {$i % 7 == 0} {
-        puts -nonewline [format "\n\t%s" $pluma]
-      } else {
-        puts -nonewline [format "\t%s" $pluma]
+  source ploceidae.tcl
+  if {[namespace exists Ploceidae]} {
+    namespace import Ploceidae::fingerboard
+  } else {
+    puts stderr "Ploceidae absent!"
+    exit 1
+  }
+
+  if {$argc} then {
+    set harps [list beadgcf bfbfb cgdae eadgbe fkbjdn]
+    set tuned [lindex $harps [lsearch -exact $harps [lindex $argv 0]]]
+
+    if {$argc eq 1 && [string match {*[0-7]*} [lindex $argv 0]]} {
+      set interim [list ]
+
+      foreach signet [lsort -ascii [array names lyrebird]] {
+        lappend interim $signet
       }
+      set clade [lsearch -all -inline $interim *$argv*]
+      unset interim
+
+      if {[llength $clade]} {
+        for {set i 0} {$i < [llength $clade]} {incr i} {
+          set pluma [lindex $clade $i]
+
+          if {$i % 7 == 0} {
+            puts -nonewline [format "\n\t%s" $pluma]
+          } else {
+            puts -nonewline [format "\t%s" $pluma]
+          }
+
+          unset pluma
+        }
+        puts "\n"
+      }
+
+      unset clade
+    } elseif {$argc eq 1 || ![llength $tuned]} {
+      set xmpl "\nTunning:\n\t%s\n\nExample:\n\ttclsh %s %s n0 j3\n"
+
+      puts [format $xmpl $harps $::argv0 [lindex $harps 0]]
+
+      unset xmpl
+    } elseif {$argc > 1 && [llength $tuned]} {
+      set machine [lindex $argv 0]
+      set signets [lrange $argv 1 end]
+
+      puts ""
+      foreach kid $signets {
+        if {[info exists lyrebird($kid)]} {
+          set str $lyrebird($kid)
+
+          fingerboard $kid $str $machine
+
+          unset str
+        } else {
+          puts stderr "\t$kid ?"
+        }
+        puts ""
+      }
+
+      unset machine signets
     }
+
+    unset harps tuned
+  } else {
+    set clef [lsort -ascii [array names lyrebird]]
+
+    for {set i 0} {$i < [llength $clef]} {incr i} {
+      if {$i % 7 == 0} {
+        puts -nonewline [format "\n\t%s" [lindex $clef $i]]
+      } else {
+        puts -nonewline [format "\t%s" [lindex $clef $i]]
+      }
+    } 
     puts "\n"
-  } else {
-    puts [format "\n\t%s ?\n" [lindex $argv 0]]
+
+    unset clef
   }
-  unset interim clade
 
-  exit 0
-}
+  array unset lyrebird
 
-if {$argc} {
-  set kid [lindex $argv 0]
-  set str $oscines($kid)
-
-  if {$argc > 1} {
-    set oud [lindex $argv 1]
-  } else {
-    set oud false
-  }
-}
-
-FingerBoard $kid $str $oud
-
-array unset oscines
-unset kid str oud
-
-exit 0
+} ;# close Syrinx
 
