@@ -2,7 +2,7 @@
 
 namespace eval Ploceidae {
 
-  proc fingerboard {kid str oud} {
+  proc fingerboard {sign crow harp} {
 
     set Bj 50
     set Fn 25
@@ -14,61 +14,56 @@ namespace eval Ploceidae {
     set Bn 55
     set Fk 30
 
-    set circa [clock milliseconds]
+    set stamp [clock milliseconds]
 
-    proc headstock {str peg} {
-      set tran {
+    proc headstock {crow peg} {
+      set trans {
         __ _ Ag s Au u Cu r Fe q Hg v Mn p Np y Pb w Pu z Sn t Ti o Ur x
       }
       return [
-        string map $tran [
-          concat [string range $str $peg end] [
-            string range $str 0 [expr $peg - 1]
+        string map $trans [
+          concat [string range $crow $peg end] [
+            string range $crow 0 [expr $peg - 1]
           ]
         ]
       ]
     }
 
-    proc layout {kid oud circa str tuned} {
-      puts [format "\t%s-%s-i%u" $kid $oud $circa]
+    proc layout {sign harp stamp crow tuned} {
+      puts [format "\t%s-%s-i%u" $sign $harp $stamp]
       foreach pitch $tuned {
-        puts [format "\t%s" [headstock $str $pitch]]
+        puts [format "\t%s" [headstock $crow $pitch]]
       }
     }
 
-    switch $oud {
+    switch $harp {
       beadgcf {
         set tuned [lreverse "$Bn $En $An $Dn $Gn $Cn $Fn"]
-        layout $kid $oud $circa $str $tuned
+        layout $sign $harp $stamp $crow $tuned
       }
       bfbfb {
         set tuned "$Bn $Fn $Bn $Fn $Bn"
-        layout $kid $oud $circa $str $tuned
+        layout $sign $harp $stamp $crow $tuned
       }
       cgdae {
         set tuned [lreverse "$Cn $Gn $Dn $An $En"]
-        layout $kid $oud $circa $str $tuned
+        layout $sign $harp $stamp $crow $tuned
       }
       eadgbe {
         set tuned [lreverse "$En $An $Dn $Gn $Bn $En"]
-        layout $kid $oud $circa $str $tuned
+        layout $sign $harp $stamp $crow $tuned
       }
       fkbjdn {
         set tuned [lreverse "$Fk $Bj $Dn $Fk $Bj $Dn"]
-        layout $kid $oud $circa $str $tuned
+        layout $sign $harp $stamp $crow $tuned
       }
       default {
-        set harp {beadgcf bfbfb cgdae eadgbe fkbjdn}
-        set xmpl "tclsh $::argv0 $kid eadgbe"
-
-        puts [
-          format "\nTunning:\n\t%s\n\nExample:\n\t%s\n" $harp $xmpl
-        ]
-        unset harp xmpl
+        set tuned [list $Cn]
+        layout $sign $harp $stamp $crow $tuned
       }
     }
 
-    unset circa Bj Fn Cn Gn Dn An En Bn Fk
+    unset stamp Bj Fn Cn Gn Dn An En Bn Fk
   }
   namespace export fingerboard 
 

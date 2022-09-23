@@ -29,13 +29,13 @@ namespace eval Syrinx {
     set tuned [lindex $harps [lsearch -exact $harps [lindex $argv 0]]]
 
     if {$argc eq 1 && [string match {*[0-7]*} [lindex $argv 0]]} {
-      set interim [list ]
+      set temps [list ]
 
-      foreach signet [lsort -ascii [array names lyrebird]] {
-        lappend interim $signet
+      foreach sign [lsort -ascii [array names lyrebird]] {
+        lappend temps $sign
       }
-      set clade [lsearch -all -inline $interim *$argv*]
-      unset interim
+      set clade [lsearch -all -inline $temps *$argv*]
+      unset temps
 
       if {[llength $clade]} {
         for {set i 0} {$i < [llength $clade]} {incr i} {
@@ -54,30 +54,30 @@ namespace eval Syrinx {
 
       unset clade
     } elseif {$argc eq 1 || ![llength $tuned]} {
-      set xmpl "\nTunning:\n\t%s\n\nExample:\n\ttclsh %s %s n0 j3\n"
+      set demos "\nTunning:\n\t%s\n\nExample:\n\ttclsh %s %s n0 j3\n"
 
-      puts [format $xmpl $harps $::argv0 [lindex $harps 0]]
+      puts [format $demos $harps $::argv0 [lindex $harps 0]]
 
-      unset xmpl
+      unset demos
     } elseif {$argc > 1 && [llength $tuned]} {
-      set machine [lindex $argv 0]
-      set signets [lrange $argv 1 end]
+      set harp [lindex $argv 0]
+      set signs [lrange $argv 1 end]
 
       puts ""
-      foreach kid $signets {
-        if {[info exists lyrebird($kid)]} {
-          set str $lyrebird($kid)
+      foreach sign $signs {
+        if {[info exists lyrebird($sign)]} {
+          set crow $lyrebird($sign)
 
-          fingerboard $kid $str $machine
+          fingerboard $sign $crow $harp
 
-          unset str
+          unset crow
         } else {
-          puts stderr "\t$kid ?"
+          puts stderr "\t$sign ?"
         }
         puts ""
       }
 
-      unset machine signets
+      unset harp signs
     }
 
     unset harps tuned
