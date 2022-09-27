@@ -1,5 +1,5 @@
 # Passerine
-Ornithology
+Ornithography
 
 ---
 
@@ -33,6 +33,42 @@ search example
 screenful view
 
     tclsh syrinx.tcl eadgbe flock | sensible-pager
+
+Tcl interactive shell (patchLevel 8.6.10)
+
+    tclsh
+
+:
+
+    source estrildidae.tcl; source ploceidae.tcl
+
+:
+
+    set clefs [lsort [array names Estrildidae::oscines]]
+
+:
+
+    Ploceidae::signboard $clefs
+
+:
+
+    set sign n0
+
+:
+
+    set crow $Estrildidae::oscines($sign)
+
+:
+
+    set harp eadgbe
+
+:
+
+    Ploceidae::fingerboard $sign $crow $harp
+
+:
+
+    exit
 
 ---
 

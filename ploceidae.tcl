@@ -70,7 +70,20 @@ namespace eval Ploceidae {
     unset Bj Fn Cn Gn Dn An En Bn Fk stamp tuned
   }
 
-  namespace export fingerboard
+  proc signboard {clefs} {
+    for {set i 0} {$i < [llength $clefs]} {incr i} {
+      if {$i % 7 == 0} {
+        puts -nonewline [format "\n\t%s" [lindex $clefs $i]]
+      } else {
+        puts -nonewline [format "\t%s" [lindex $clefs $i]]
+      }
+    }
+    puts "\n"
+
+    unset clefs i
+  }
+
+  namespace export fingerboard signboard
 
 } ;# close Ploceidae
 

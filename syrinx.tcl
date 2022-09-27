@@ -45,7 +45,7 @@ namespace eval Syrinx {
     }
 
     if {[namespace exists Ploceidae]} {
-      namespace import Ploceidae::fingerboard
+      namespace import Ploceidae::fingerboard Ploceidae::signboard
     } else {
       puts stderr "Ploceidae absent!"
       exit 1
@@ -71,20 +71,7 @@ namespace eval Syrinx {
         unset sign temps
 
         if {[llength $clade]} {
-          for {set i 0} {$i < [llength $clade]} {incr i} {
-            set pluma [lindex $clade $i]
-
-            if {$i % 7 == 0} {
-              puts -nonewline [format "\n\t%s" $pluma]
-            } else {
-              puts -nonewline [format "\t%s" $pluma]
-            }
-
-            unset pluma
-          }
-          puts "\n"
-
-          unset i
+          signboard $clade
         }
 
         unset clade
@@ -132,16 +119,7 @@ namespace eval Syrinx {
 
       unset harps tuned
     } else {
-      for {set i 0} {$i < [llength $clefs]} {incr i} {
-        if {$i % 7 == 0} {
-          puts -nonewline [format "\n\t%s" [lindex $clefs $i]]
-        } else {
-          puts -nonewline [format "\t%s" [lindex $clefs $i]]
-        }
-      }
-      puts "\n"
-
-      unset i
+      signboard $clefs
     }
 
     unset clefs
