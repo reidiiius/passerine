@@ -1,102 +1,158 @@
-#!/usr/bin/tclsh
+#! /usr/bin/env tclsh
 
 namespace eval Syrinx {
 
-  source estrildidae.tcl
-  if {[namespace exists Estrildidae]} {
-     namespace upvar Estrildidae oscines lyrebird
-  } else {
-    puts stderr "Estrildidae absent!"
-    exit 1
-  }
+  # check for main script or loaded library
+  if {$argv0 eq [info script] && !$tcl_interactive} {
 
-  if {[catch {set lyrebird(z0) [lrepeat 12 "____"]} errs] } {
-    set hint "%s, failed to set lyrebird, %s"
-    puts stderr [format $hint $::argv0 $errs]
-    exit 1
-  }
+    variable rsrc estrildidae.tcl
 
-  source ploceidae.tcl
-  if {[namespace exists Ploceidae]} {
-    namespace import Ploceidae::fingerboard
-  } else {
-    puts stderr "Ploceidae absent!"
-    exit 1
-  }
-
-  if {$argc} then {
-    set harps [list beadgcf bfbfb cgdae eadgbe fkbjdn]
-    set tuned [lindex $harps [lsearch -exact $harps [lindex $argv 0]]]
-
-    if {$argc eq 1 && [string match {*[0-7]*} [lindex $argv 0]]} {
-      set temps [list ]
-
-      foreach sign [lsort -ascii [array names lyrebird]] {
-        lappend temps $sign
-      }
-      set clade [lsearch -all -inline $temps *$argv*]
-      unset temps
-
-      if {[llength $clade]} {
-        for {set i 0} {$i < [llength $clade]} {incr i} {
-          set pluma [lindex $clade $i]
-
-          if {$i % 7 == 0} {
-            puts -nonewline [format "\n\t%s" $pluma]
-          } else {
-            puts -nonewline [format "\t%s" $pluma]
-          }
-
-          unset pluma
-        }
-        puts "\n"
-      }
-
-      unset clade
-    } elseif {$argc eq 1 || ![llength $tuned]} {
-      set demos "\nTunning:\n\t%s\n\nExample:\n\ttclsh %s %s n0 j3\n"
-
-      puts [format $demos $harps $::argv0 [lindex $harps 0]]
-
-      unset demos
-    } elseif {$argc > 1 && [llength $tuned]} {
-      set harp [lindex $argv 0]
-      set signs [lrange $argv 1 end]
-
-      puts ""
-      foreach sign $signs {
-        if {[info exists lyrebird($sign)]} {
-          set crow $lyrebird($sign)
-
-          fingerboard $sign $crow $harp
-
-          unset crow
-        } else {
-          puts stderr "\t$sign ?"
-        }
-        puts ""
-      }
-
-      unset harp signs
+    if {
+      [file exists $rsrc] &&
+      [file isfile $rsrc] &&
+      [file readable $rsrc]
+    } then {
+      source $rsrc
+    } else {
+      puts stderr "$rsrc not found!"
+      exit 1
     }
 
-    unset harps tuned
-  } else {
-    set clef [lsort -ascii [array names lyrebird]]
+    if {[namespace exists Estrildidae]} {
+       namespace upvar Estrildidae oscines lyrebird
+    } else {
+      puts stderr "Estrildidae absent!"
+      exit 1
+    }
 
-    for {set i 0} {$i < [llength $clef]} {incr i} {
-      if {$i % 7 == 0} {
-        puts -nonewline [format "\n\t%s" [lindex $clef $i]]
-      } else {
-        puts -nonewline [format "\t%s" [lindex $clef $i]]
+    if {[catch {set lyrebird(z0) [string repeat "____ " 12]} errs] } {
+      set hint "%s, failed to set lyrebird, %s"
+      puts stderr [format $hint $::argv0 $errs]
+      exit 1
+    }
+
+    set rsrc ploceidae.tcl
+
+    if {
+      [file exists $rsrc] &&
+      [file isfile $rsrc] &&
+      [file readable $rsrc]
+    } then {
+      source $rsrc
+    } else {
+      puts stderr "$rsrc not found!"
+      exit 1
+    }
+
+    if {[namespace exists Ploceidae]} {
+      namespace import Ploceidae::fingerboard
+    } else {
+      puts stderr "Ploceidae absent!"
+      exit 1
+    }
+
+    unset errs rsrc
+
+    variable clefs {}
+
+    lset clefs [lsort -ascii [array names lyrebird]]
+
+    if {$argc} then {
+      set harps [list beadgcf bfbfb cgdae eadgbe fkbjdn]
+      set tuned [lindex $harps [lsearch -exact $harps [lindex $argv 0]]]
+
+      if {$argc eq 1 && [string match {*[0-7]*} [lindex $argv 0]]} {
+        set temps [list ]
+
+        foreach sign $clefs {
+          lappend temps $sign
+        }
+        set clade [lsearch -all -inline $temps *$argv*]
+        unset sign temps
+
+        if {[llength $clade]} {
+          for {set i 0} {$i < [llength $clade]} {incr i} {
+            set pluma [lindex $clade $i]
+
+            if {$i % 7 == 0} {
+              puts -nonewline [format "\n\t%s" $pluma]
+            } else {
+              puts -nonewline [format "\t%s" $pluma]
+            }
+
+            unset pluma
+          }
+          puts "\n"
+
+          unset i
+        }
+
+        unset clade
+      } elseif {$argc eq 1 || ![llength $tuned]} {
+        set demos "\nTunning:\n\t%s\n\nExample:\n\ttclsh %s %s n0 j3\n"
+        set mnemo [info script]
+
+        puts [format $demos $harps $mnemo [lindex $harps 0]]
+
+        unset demos mnemo
+      } elseif {$argc > 1 && [llength $tuned]} {
+        set harp [lindex $argv 0]
+        set signs [lrange $argv 1 end]
+
+        if {[llength [lsearch -inline -exact $signs "flock"]]} {
+          puts ""
+          foreach sign $clefs {
+            set crow $lyrebird($sign)
+
+            fingerboard $sign $crow $harp
+
+            puts ""
+          }
+
+          unset clefs crow harp harps sign signs tuned
+          exit 0
+        } else {
+          puts ""
+          foreach sign $signs {
+            if {[info exists lyrebird($sign)]} {
+              set crow $lyrebird($sign)
+
+              fingerboard $sign $crow $harp
+
+              unset crow
+            } else {
+              puts stderr "\t$sign ?"
+            }
+            puts ""
+          }
+
+          unset harp signs sign
+        }
       }
-    } 
-    puts "\n"
 
-    unset clef
+      unset harps tuned
+    } else {
+      for {set i 0} {$i < [llength $clefs]} {incr i} {
+        if {$i % 7 == 0} {
+          puts -nonewline [format "\n\t%s" [lindex $clefs $i]]
+        } else {
+          puts -nonewline [format "\t%s" [lindex $clefs $i]]
+        }
+      }
+      puts "\n"
+
+      unset i
+    }
+
+    unset clefs
+  } else {
+    set demos "\nUnable to source %s\n\nExample:\n\ttclsh %s help\n"
+    set mnemo [info script]
+
+    puts stderr [format $demos $mnemo $mnemo]
+
+    unset demos mnemo
   }
-
-  array unset lyrebird
 
 } ;# close Syrinx
 

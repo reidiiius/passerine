@@ -1,8 +1,32 @@
-#!/usr/bin/tclsh
+#! /usr/bin/env tclsh
 
 namespace eval Ploceidae {
 
+  proc headstock {crow peg} {
+    set trans {
+      __ _ Ag s Au u Cu r Fe q Hg v Mn p Np y Pb w Pu z Sn t Ti o Ur x
+    }
+    set yarn [
+      string map $trans [
+        concat [string range $crow $peg end] [
+          string range $crow 0 [expr $peg - 1]
+        ]
+      ]
+    ]
+    return $yarn
+  }
+
+  proc layout {sign harp stamp crow tuned} {
+    puts [format "\t%s-%s-i%u" $sign $harp $stamp]
+    foreach pitch $tuned {
+      puts [format "\t%s" [headstock $crow $pitch]]
+    }
+  }
+
   proc fingerboard {sign crow harp} {
+    if {[string length $crow] != 60} {
+      set harp "unison"
+    }
 
     set Bj 50
     set Fn 25
@@ -15,26 +39,6 @@ namespace eval Ploceidae {
     set Fk 30
 
     set stamp [clock milliseconds]
-
-    proc headstock {crow peg} {
-      set trans {
-        __ _ Ag s Au u Cu r Fe q Hg v Mn p Np y Pb w Pu z Sn t Ti o Ur x
-      }
-      return [
-        string map $trans [
-          concat [string range $crow $peg end] [
-            string range $crow 0 [expr $peg - 1]
-          ]
-        ]
-      ]
-    }
-
-    proc layout {sign harp stamp crow tuned} {
-      puts [format "\t%s-%s-i%u" $sign $harp $stamp]
-      foreach pitch $tuned {
-        puts [format "\t%s" [headstock $crow $pitch]]
-      }
-    }
 
     switch $harp {
       beadgcf {
@@ -63,9 +67,10 @@ namespace eval Ploceidae {
       }
     }
 
-    unset stamp Bj Fn Cn Gn Dn An En Bn Fk
+    unset Bj Fn Cn Gn Dn An En Bn Fk stamp tuned
   }
-  namespace export fingerboard 
+
+  namespace export fingerboard
 
 } ;# close Ploceidae
 

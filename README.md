@@ -30,6 +30,10 @@ search example
 
     tclsh syrinx.tcl 56
 
+screenful view
+
+    tclsh syrinx.tcl eadgbe flock | sensible-pager
+
 ---
 
 ### Distribution

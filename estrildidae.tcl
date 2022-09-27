@@ -1,6 +1,8 @@
-#!/usr/bin/tclsh
+#! /usr/bin/env tclsh
 
 namespace eval Estrildidae {
+
+  variable oscines
 
   array set oscines {
         j2 "HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ____ AgUr ____ FePu "
