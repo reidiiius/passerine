@@ -18,10 +18,10 @@ namespace eval Syrinx {
       exit 1
     }
 
-    if {[namespace exists Estrildidae]} {
-       namespace upvar Estrildidae oscines lyrebird
+    if {[namespace exists Estrilda]} {
+       namespace upvar Estrilda oscines lyrebird
     } else {
-      puts stderr "Estrildidae absent!"
+      puts stderr "Estrilda absent!"
       exit 1
     }
 
@@ -44,10 +44,10 @@ namespace eval Syrinx {
       exit 1
     }
 
-    if {[namespace exists Ploceidae]} {
-      namespace import Ploceidae::fingerboard Ploceidae::signboard
+    if {[namespace exists Ploceus]} {
+      namespace import Ploceus::fingerboard Ploceus::signboard
     } else {
-      puts stderr "Ploceidae absent!"
+      puts stderr "Ploceus absent!"
       exit 1
     }
 

@@ -1,6 +1,6 @@
 #! /usr/bin/env tclsh
 
-namespace eval Ploceidae {
+namespace eval Ploceus {
 
   proc headstock {crow peg} {
     set trans {
@@ -85,5 +85,5 @@ namespace eval Ploceidae {
 
   namespace export fingerboard signboard
 
-} ;# close Ploceidae
+} ;# close Ploceus
 

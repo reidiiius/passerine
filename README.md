@@ -44,11 +44,11 @@ Tcl interactive shell (patchLevel 8.6.10)
 
 :
 
-    set clefs [lsort [array names Estrildidae::oscines]]
+    set clefs [lsort [array names Estrilda::oscines]]
 
 :
 
-    Ploceidae::signboard $clefs
+    Ploceus::signboard $clefs
 
 :
 
@@ -56,7 +56,7 @@ Tcl interactive shell (patchLevel 8.6.10)
 
 :
 
-    set crow $Estrildidae::oscines($sign)
+    set crow $Estrilda::oscines($sign)
 
 :
 
@@ -64,7 +64,7 @@ Tcl interactive shell (patchLevel 8.6.10)
 
 :
 
-    Ploceidae::fingerboard $sign $crow $harp
+    Ploceus::fingerboard $sign $crow $harp
 
 :
 

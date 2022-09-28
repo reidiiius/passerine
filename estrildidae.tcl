@@ -1,6 +1,6 @@
 #! /usr/bin/env tclsh
 
-namespace eval Estrildidae {
+namespace eval Estrilda {
 
   variable oscines
 
@@ -90,5 +90,5 @@ namespace eval Estrildidae {
    k2j56y7 "NpCu ____ ____ FePu HgHg PuFe SnTi ____ CuNp PbAu ____ ____ "
   }
 
-} ;# close Estrildidae
+} ;# close Estrilda
 
