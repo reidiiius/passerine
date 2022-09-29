@@ -40,7 +40,7 @@ Tcl interactive shell (patchLevel 8.6.10)
 
 :
 
-    source estrildidae.tcl; source ploceidae.tcl
+    source estrilda.tcl; source ploceus.tcl
 
 :
 
