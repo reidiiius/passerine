@@ -5,7 +5,7 @@ namespace eval Syrinx {
   # check for main script or loaded library
   if {$argv0 eq [info script] && !$tcl_interactive} {
 
-    variable rsrc estrildidae.tcl
+    variable rsrc estrilda.tcl
 
     if {
       [file exists $rsrc] &&
@@ -31,7 +31,7 @@ namespace eval Syrinx {
       exit 1
     }
 
-    set rsrc ploceidae.tcl
+    set rsrc ploceus.tcl
 
     if {
       [file exists $rsrc] &&
