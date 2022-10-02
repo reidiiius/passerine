@@ -44,15 +44,15 @@ Tcl interactive shell (patchLevel 8.6.10)
 
 :
 
-    set clefs [lsort [array names Estrilda::oscines]]
+    Estrilda::signboard {}
 
 :
 
-    Ploceus::signboard $clefs
+    foreach tuned $Ploceus::machines { puts $tuned }
 
 :
 
-    set sign n0
+    set harp eadgbe; set sign n0
 
 :
 
@@ -60,7 +60,19 @@ Tcl interactive shell (patchLevel 8.6.10)
 
 :
 
-    set harp eadgbe
+    Ploceus::fingerboard $sign $crow $harp
+
+:
+
+    set clefs [array names Estrilda::oscines]
+
+:
+
+    Estrilda::signboard [lsearch -all -inline $clefs *k?]
+
+:
+
+    set sign j23k6; set crow $Estrilda::oscines($sign)
 
 :
 

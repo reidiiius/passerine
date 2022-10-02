@@ -2,7 +2,27 @@
 
 namespace eval Estrilda {
 
+  namespace export signboard
+
   variable oscines
+
+  proc signboard {clefs} {
+    if {[llength $clefs]} {
+      set signs $clefs
+    } else {
+      variable oscines
+      set signs [lsort [array names oscines]]
+    }
+
+    for {set i 0} {$i < [llength $signs]} {incr i} {
+      if {$i % 7 == 0} {
+        puts -nonewline [format "\n\t%s" [lindex $signs $i]]
+      } else {
+        puts -nonewline [format "\t%s" [lindex $signs $i]]
+      }
+    }
+    puts "\n"
+  }
 
   array set oscines {
         j2 "HgHg PuFe ____ ____ CuNp PbAu ____ AuPb ____ AgUr ____ FePu "

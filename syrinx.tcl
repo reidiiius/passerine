@@ -30,15 +30,16 @@ namespace eval Syrinx {
     }
 
     if {[namespace exists Estrilda]} {
-       namespace upvar Estrilda oscines lyrebird
+      namespace import Estrilda::signboard
+      namespace upvar Estrilda oscines lyrebird
     } else {
       puts stderr "Estrilda absent!"
       exit 1
     }
 
     if {[catch {set lyrebird(z0) [string repeat "____ " 12]} errs] } {
-      set hint "%s, failed to set lyrebird, %s"
-      puts stderr [format $hint $::argv0 $errs]
+      set hint "%s: failed to set lyrebird, %s"
+      puts stderr [format $hint [info script] $errs]
       exit 1
     }
 
@@ -56,7 +57,8 @@ namespace eval Syrinx {
     }
 
     if {[namespace exists Ploceus]} {
-      namespace import Ploceus::fingerboard Ploceus::signboard
+      namespace import Ploceus::fingerboard
+      namespace upvar Ploceus machines harps
     } else {
       puts stderr "Ploceus absent!"
       exit 1
@@ -65,11 +67,9 @@ namespace eval Syrinx {
     unset errs rsrc
 
     variable clefs {}
-
     lset clefs [lsort -ascii [array names lyrebird]]
 
     if {$argc} then {
-      set harps [list beadgcf bfbfb cgdae eadgbe fkbjdn]
       set tuned [lindex $harps [lsearch -exact $harps [lindex $argv 0]]]
 
       if {$argc eq 1 && [string match {*[0-7]*} [lindex $argv 0]]} {
@@ -87,7 +87,7 @@ namespace eval Syrinx {
 
         unset clade
       } elseif {$argc eq 1 || ![llength $tuned]} {
-        set demos "\nTunning:\n\t%s\n\nExample:\n\ttclsh %s %s n0 j3\n"
+        set demos "\nTunings:\n\t%s\n\nExample:\n\ttclsh %s %s n0 j3\n"
         set mnemo [info script]
 
         puts [format $demos $harps $mnemo [lindex $harps 0]]
@@ -128,12 +128,12 @@ namespace eval Syrinx {
         }
       }
 
-      unset harps tuned
+      unset tuned
     } else {
-      signboard $clefs
+      signboard {}
     }
 
-    unset clefs
+    unset clefs harps lyrebird
   } else {
     set demos "\nUnable to source %s\n\nExample:\n\ttclsh %s help\n"
     set mnemo [info script]

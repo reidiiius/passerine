@@ -2,19 +2,63 @@
 
 namespace eval Ploceus {
 
-  proc concord {crow pitch} {
+  namespace export fingerboard
+
+  variable machines
+  variable metallic
+  variable sequence
+  variable tributes
+  variable utensils
+
+  # instrument tunings
+  set machines [list beadgcf bfbfb cgdae eadgbe fkbjdn]
+
+  # configure digraphs
+  set metallic false
+
+  # current time as integer
+  set sequence [clock milliseconds]
+
+  # stack state buffers
+  array set tributes {
+    sign {}
+    crow {}
+    harp {}
+    pegs {}
+  }
+
+  # elemental field indices
+  array set utensils {
+    Bj 50
+    Fn 25
+    Cn 0
+    Gn 35
+    Dn 10
+    An 45
+    En 20
+    Bn 55
+    Fk 30
+  }
+
+  proc concord {pitch} {
+    variable utensils
+    variable tributes
+
     set wire [
-      concat [string range $crow $pitch end] [
-        string range $crow 0 [expr $pitch - 1]
+      concat [string range $tributes(crow) $utensils($pitch) end] [
+        string range $tributes(crow) 0 [expr $utensils($pitch) - 1]
       ]
     ]
+
     return $wire
   }
 
-  proc headstock {crow pitch metal} {
-    if {$metal} then {
+  proc headstock {pitch} {
+    variable metallic
+
+    if {$metallic} then {
       set yarn [
-        concord $crow $pitch
+        concord $pitch
       ]
     } else {
       set trans {
@@ -22,78 +66,57 @@ namespace eval Ploceus {
       }
       set yarn [
         string map $trans [
-          concord $crow $pitch
+          concord $pitch
         ]
       ]
     }
+
     return $yarn
   }
 
-  proc layout {sign crow harp pegs} {
-    set stamp [clock milliseconds]
-    set metal false
+  proc layout {} {
+    variable tributes
+    variable sequence
 
-    puts [format "\t%s-%s-i%u" $sign $harp $stamp]
-    foreach pitch $pegs {
-      puts [format "\t%s" [headstock $crow $pitch $metal]]
+    puts [format "\t%s-%s-i%u" $tributes(sign) $tributes(harp) $sequence]
+    foreach pitch $tributes(pegs) {
+      puts [format "\t%s" [headstock $pitch]]
     }
   }
 
   proc fingerboard {sign crow harp} {
     if {[string length $crow] != 60} {
-      set harp "unison"
+      set harp unison
     }
 
-    set Bj 50
-    set Fn 25
-    set Cn 0
-    set Gn 35
-    set Dn 10
-    set An 45
-    set En 20
-    set Bn 55
-    set Fk 30
+    variable tributes
+    lset tributes(sign) $sign
+    lset tributes(crow) $crow
+    lset tributes(harp) $harp
 
     switch $harp {
       beadgcf {
-        set pegs [lreverse "$Bn $En $An $Dn $Gn $Cn $Fn"]
-        layout $sign $crow $harp $pegs
+        lset tributes(pegs) [lreverse {Bn En An Dn Gn Cn Fn}]
       }
       bfbfb {
-        set pegs "$Bn $Fn $Bn $Fn $Bn"
-        layout $sign $crow $harp $pegs
+        lset tributes(pegs) {Bn Fn Bn Fn Bn}
       }
       cgdae {
-        set pegs [lreverse "$Cn $Gn $Dn $An $En"]
-        layout $sign $crow $harp $pegs
+        lset tributes(pegs) [lreverse {Cn Gn Dn An En}]
       }
       eadgbe {
-        set pegs [lreverse "$En $An $Dn $Gn $Bn $En"]
-        layout $sign $crow $harp $pegs
+        lset tributes(pegs) [lreverse {En An Dn Gn Bn En}]
       }
       fkbjdn {
-        set pegs [lreverse "$Fk $Bj $Dn $Fk $Bj $Dn"]
-        layout $sign $crow $harp $pegs
+        lset tributes(pegs) [lreverse {Fk Bj Dn Fk Bj Dn}]
       }
       default {
-        set pegs [list $Cn]
-        layout $sign $crow $harp $pegs
+        lset tributes(pegs) [list Cn]
       }
     }
-  }
 
-  proc signboard {clefs} {
-    for {set i 0} {$i < [llength $clefs]} {incr i} {
-      if {$i % 7 == 0} {
-        puts -nonewline [format "\n\t%s" [lindex $clefs $i]]
-      } else {
-        puts -nonewline [format "\t%s" [lindex $clefs $i]]
-      }
-    }
-    puts "\n"
+    layout
   }
-
-  namespace export fingerboard signboard
 
 } ;# close Ploceus
 
