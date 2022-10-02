@@ -2,24 +2,40 @@
 
 namespace eval Ploceus {
 
-  proc headstock {crow peg} {
-    set trans {
-      __ _ Ag s Au u Cu r Fe q Hg v Mn p Np y Pb w Pu z Sn t Ti o Ur x
-    }
-    set yarn [
-      string map $trans [
-        concat [string range $crow $peg end] [
-          string range $crow 0 [expr $peg - 1]
-        ]
+  proc concord {crow pitch} {
+    set wire [
+      concat [string range $crow $pitch end] [
+        string range $crow 0 [expr $pitch - 1]
       ]
     ]
+    return $wire
+  }
+
+  proc headstock {crow pitch metal} {
+    if {$metal} then {
+      set yarn [
+        concord $crow $pitch
+      ]
+    } else {
+      set trans {
+        __ _ Ag s Au u Cu r Fe q Hg v Mn p Np y Pb w Pu z Sn t Ti o Ur x
+      }
+      set yarn [
+        string map $trans [
+          concord $crow $pitch
+        ]
+      ]
+    }
     return $yarn
   }
 
-  proc layout {sign harp stamp crow tuned} {
+  proc layout {sign crow harp pegs} {
+    set stamp [clock milliseconds]
+    set metal false
+
     puts [format "\t%s-%s-i%u" $sign $harp $stamp]
-    foreach pitch $tuned {
-      puts [format "\t%s" [headstock $crow $pitch]]
+    foreach pitch $pegs {
+      puts [format "\t%s" [headstock $crow $pitch $metal]]
     }
   }
 
@@ -38,36 +54,32 @@ namespace eval Ploceus {
     set Bn 55
     set Fk 30
 
-    set stamp [clock milliseconds]
-
     switch $harp {
       beadgcf {
-        set tuned [lreverse "$Bn $En $An $Dn $Gn $Cn $Fn"]
-        layout $sign $harp $stamp $crow $tuned
+        set pegs [lreverse "$Bn $En $An $Dn $Gn $Cn $Fn"]
+        layout $sign $crow $harp $pegs
       }
       bfbfb {
-        set tuned "$Bn $Fn $Bn $Fn $Bn"
-        layout $sign $harp $stamp $crow $tuned
+        set pegs "$Bn $Fn $Bn $Fn $Bn"
+        layout $sign $crow $harp $pegs
       }
       cgdae {
-        set tuned [lreverse "$Cn $Gn $Dn $An $En"]
-        layout $sign $harp $stamp $crow $tuned
+        set pegs [lreverse "$Cn $Gn $Dn $An $En"]
+        layout $sign $crow $harp $pegs
       }
       eadgbe {
-        set tuned [lreverse "$En $An $Dn $Gn $Bn $En"]
-        layout $sign $harp $stamp $crow $tuned
+        set pegs [lreverse "$En $An $Dn $Gn $Bn $En"]
+        layout $sign $crow $harp $pegs
       }
       fkbjdn {
-        set tuned [lreverse "$Fk $Bj $Dn $Fk $Bj $Dn"]
-        layout $sign $harp $stamp $crow $tuned
+        set pegs [lreverse "$Fk $Bj $Dn $Fk $Bj $Dn"]
+        layout $sign $crow $harp $pegs
       }
       default {
-        set tuned [list $Cn]
-        layout $sign $harp $stamp $crow $tuned
+        set pegs [list $Cn]
+        layout $sign $crow $harp $pegs
       }
     }
-
-    unset Bj Fn Cn Gn Dn An En Bn Fk stamp tuned
   }
 
   proc signboard {clefs} {
@@ -79,8 +91,6 @@ namespace eval Ploceus {
       }
     }
     puts "\n"
-
-    unset clefs i
   }
 
   namespace export fingerboard signboard

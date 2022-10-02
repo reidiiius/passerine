@@ -7,6 +7,17 @@ namespace eval Syrinx {
 
     variable rsrc estrilda.tcl
 
+    set pathway [file normalize [file dirname $rsrc]]
+    # move from parent directory to child repository
+    if {![string match -nocase *passerine* $pathway]} {
+      foreach folder [lsort [glob -type d *]] {
+        if {[string match -nocase *passerine* $folder]} {
+          cd $folder
+        }
+      }
+    }
+    unset pathway
+
     if {
       [file exists $rsrc] &&
       [file isfile $rsrc] &&
@@ -14,7 +25,7 @@ namespace eval Syrinx {
     } then {
       source $rsrc
     } else {
-      puts stderr "$rsrc not found!"
+      puts stderr "problem sourcing $rsrc"
       exit 1
     }
 
@@ -40,7 +51,7 @@ namespace eval Syrinx {
     } then {
       source $rsrc
     } else {
-      puts stderr "$rsrc not found!"
+      puts stderr "problem sourcing $rsrc"
       exit 1
     }
 
