@@ -16,6 +16,7 @@ namespace eval Syrinx {
         }
       }
     }
+
     unset pathway
 
     if {
@@ -58,7 +59,7 @@ namespace eval Syrinx {
 
     if {[namespace exists Ploceus]} {
       namespace import Ploceus::fingerboard
-      namespace upvar Ploceus machines harps
+      namespace upvar Ploceus machines gears
     } else {
       puts stderr "Ploceus absent!"
       exit 1
@@ -70,7 +71,7 @@ namespace eval Syrinx {
     lset clefs [lsort -ascii [array names lyrebird]]
 
     if {$argc} then {
-      set tuned [lindex $harps [lsearch -exact $harps [lindex $argv 0]]]
+      set tuned [lindex $gears [lsearch -exact $gears [lindex $argv 0]]]
 
       if {$argc eq 1 && [string match {*[0-7]*} [lindex $argv 0]]} {
         set temps [list ]
@@ -90,7 +91,7 @@ namespace eval Syrinx {
         set demos "\nTunings:\n\t%s\n\nExample:\n\ttclsh %s %s n0 j3\n"
         set mnemo [info script]
 
-        puts [format $demos $harps $mnemo [lindex $harps 0]]
+        puts [format $demos $gears $mnemo [lindex $gears 0]]
 
         unset demos mnemo
       } elseif {$argc > 1 && [llength $tuned]} {
@@ -107,7 +108,7 @@ namespace eval Syrinx {
             puts ""
           }
 
-          unset clefs crow harp harps sign signs tuned
+          unset clefs crow harp gears sign signs tuned
           exit 0
         } else {
           puts ""
@@ -133,7 +134,7 @@ namespace eval Syrinx {
       signboard {}
     }
 
-    unset clefs harps lyrebird
+    unset clefs gears lyrebird
   } else {
     set demos "\nUnable to source %s\n\nExample:\n\ttclsh %s help\n"
     set mnemo [info script]

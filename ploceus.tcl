@@ -56,19 +56,13 @@ namespace eval Ploceus {
   proc headstock {pitch} {
     variable metallic
 
-    if {$metallic} then {
-      set yarn [
-        concord $pitch
-      ]
+    if {$metallic} {
+      set yarn [concord $pitch]
     } else {
       set trans {
         __ _ Ag s Au u Cu r Fe q Hg v Mn p Np y Pb w Pu z Sn t Ti o Ur x
       }
-      set yarn [
-        string map $trans [
-          concord $pitch
-        ]
-      ]
+      set yarn [string map $trans [concord $pitch]]
     }
 
     return $yarn
