@@ -64,7 +64,7 @@ Tcl interactive shell (patchLevel 8.6.10)
 
 :
 
-    set clefs [array names Estrilda::oscines]
+    set clefs [lsort [array names Estrilda::oscines]]
 
 :
 
