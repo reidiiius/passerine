@@ -5,6 +5,7 @@ namespace eval Estrilda {
   namespace export signboard
 
   variable oscines
+  set oscines(z0) [string repeat "____ " 12]
 
   proc signboard {clefs} {
     if {[llength $clefs]} {
