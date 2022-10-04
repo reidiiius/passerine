@@ -2,6 +2,15 @@
 
 namespace eval Syrinx {
 
+  variable qualid
+  variable spandex
+
+  # name of current namespace
+  set qualid [namespace tail [namespace current]]
+
+  # maximum number of characters in a string
+  set spandex 15
+
   # moves from parent directory to child repository
   proc repositron {} {
     set seat [file tail [info script]]
@@ -77,20 +86,71 @@ namespace eval Syrinx {
     }
   }
 
-  # search through key signatures
-  proc research {clefs argv} {
-    set temps [list ]
+  # limit quantity of standard input characters
+  proc sentinel {argc argv caps} {
+    set item 0
 
-    foreach sign $clefs {
-      lappend temps $sign
+    while {$item ne $argc} {
+      if {[string length [lindex $argv $item]] > $caps} {
+        # govern amount of characters in violator argument
+        lset argv $item [string range [lindex $argv $item] 0 $caps]
+      }
+
+      incr item
     }
-    set clade [lsearch -all -inline $temps *$argv*]
 
-    if {[llength $clade]} {
-      signboard $clade
+    unset item
+  }
+
+  # limits quantity of characters for each element of
+  # given list and returns normalized list of strings
+  # see procedure sentinel and variable spandex
+  proc governor {kids caps} {
+    set narc [llength $kids]
+    set item 0
+
+    while {$item ne $narc} {
+      if {[string length [lindex $kids $item]] > $caps} {
+        # govern amount of characters in violator argument
+        lset kids $item [string range [lindex $kids $item] 0 $caps]
+      }
+
+      incr item
     }
 
-    unset clade sign temps
+    unset item narc
+    return $kids
+  }
+
+  # search through keys
+  proc research {clefs kinda} {
+    set clutch [list ]
+
+    if {[llength $clefs]} {
+      foreach egg $clefs {
+        lappend clutch $egg
+      }
+
+      unset egg
+    } else {
+      variable qualid
+
+      puts stderr "${qualid}::research passed an empty tuple"
+    }
+
+    if {[llength $clutch]} {
+      set clade [lsearch -all -inline $clutch *$kinda*]
+
+      if {[llength $clade]} {
+        signboard $clade
+      } else {
+        puts "\n\tNothing similar to $kinda\n"
+      }
+
+      unset clade
+    }
+
+    unset clutch
   }
 
   # display help message with examples
@@ -107,37 +167,47 @@ namespace eval Syrinx {
   proc gamuts {clefs harp} {
     variable lyrebird
 
-    puts ""
-    foreach sign $clefs {
-      set crow $lyrebird($sign)
-
-      fingerboard $sign $crow $harp
-
+    if {[array size lyrebird]} {
       puts ""
-    }
+      foreach sign $clefs {
+        set crow $lyrebird($sign)
 
-    unset crow sign
+        fingerboard $sign $crow $harp
+
+        puts ""
+      }
+
+      unset crow sign
+    } else {
+      variable qualid
+
+      puts stderr "${qualid}::lyrebird is empty"
+    }
   }
 
-  # display matrices of chosen tuning and signatures
-  proc matrices {signs harp} {
+  # display matrices of chosen tuning and keys
+  proc matrices {kids harp} {
     variable lyrebird
-    set crow $lyrebird(z0)
+    variable spandex
+    set crow [string repeat "____ " 12]
 
     puts ""
-    foreach sign $signs {
-      if {[info exists lyrebird($sign)]} {
+    foreach sign $kids {
+      # input characters quantity limit
+      if {[string length $sign] < $spandex &&
+          [info exists lyrebird($sign)]
+      } then {
         set crow $lyrebird($sign)
 
         fingerboard $sign $crow $harp
 
       } else {
-        puts stderr "\t$sign ?"
+        puts stderr "\t[string range $sign 0 9] ?"
       }
       puts ""
     }
 
-    unset crow harp sign signs
+    unset crow harp sign kids
   }
 
   # display sourcing error message with alternative example
@@ -166,13 +236,24 @@ namespace eval Syrinx {
     lset clefs [lsort -ascii [array names lyrebird]]
 
     if {$argc} then {
+      # limit quantity of input characters
+      sentinel $argc $argv $spandex
+
       # establish instrument tuning
       set tuned [lindex $gears [lsearch -exact $gears [lindex $argv 0]]]
 
-      if {$argc eq 1 && [string match {*[0-7]*} [lindex $argv 0]]} {
-        # search through key signatures
-        research $clefs $argv
+      if {$argc eq 1 && [string match {*[0-9]*} [lindex $argv 0]]} {
+        # search through keys
+        set kinda [lindex $argv 0]
 
+        # input characters quantity limit
+        if {[string length $kinda] < $spandex} {
+          research $clefs $kinda
+        } else {
+          puts stderr "\n\t[string range $kinda 0 9]... ?\n"
+        }
+
+        unset kinda
       } elseif {$argc eq 1 || ![llength $tuned]} {
         # display help message with examples
         examples $gears
@@ -180,20 +261,20 @@ namespace eval Syrinx {
       } elseif {$argc > 1 && [llength $tuned]} {
         # correct tuning chosen so parse variant arguments
         set harp [lindex $argv 0]
-        set signs [lrange $argv 1 end]
+        set kids [lrange $argv 1 end]
 
-        if {[llength [lsearch -inline -exact $signs "flock"]]} {
+        if {[llength [lsearch -inline -exact $kids "flock"]]} {
           # display all matrices formatted in chosen tuning
           gamuts $clefs $harp
 
-          unset clefs gears harp lyrebird signs tuned
+          unset clefs gears harp lyrebird kids tuned
           exit 0
 
         } else {
-          # display matrices of chosen tuning and signatures
-          matrices $signs $harp
+          # display matrices of chosen tuning and keys
+          matrices [governor $kids 12] $harp
 
-          unset harp signs
+          unset harp kids
         }
       }
 
@@ -211,5 +292,6 @@ namespace eval Syrinx {
     sourmash
   }
 
+  unset qualid
 } ;# close Syrinx
 

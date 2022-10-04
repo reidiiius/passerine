@@ -5,14 +5,33 @@ namespace eval Estrilda {
   namespace export signboard
 
   variable oscines
+  variable qualid
+
+  # initialization
+  array set oscines {}
   set oscines(z0) [string repeat "____ " 12]
+
+  # name of current namespace
+  set qualid [namespace tail [namespace current]]
 
   proc signboard {clefs} {
     if {[llength $clefs]} {
-      set signs $clefs
+      set signs [lsort $clefs]
     } else {
       variable oscines
-      set signs [lsort [array names oscines]]
+      variable qualid
+
+      if {[array exists oscines]} {
+        if {[array size oscines]} {
+          set signs [lsort [array names oscines]]
+        } else {
+          puts stderr "${qualid}::oscines is empty"
+          exit 1
+        }
+      } else {
+        puts stderr "${qualid}::oscines not found"
+        exit 1
+      }
     }
 
     for {set i 0} {$i < [llength $signs]} {incr i} {
@@ -23,6 +42,8 @@ namespace eval Estrilda {
       }
     }
     puts "\n"
+
+    unset signs
   }
 
   array set oscines {
