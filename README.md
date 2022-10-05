@@ -14,7 +14,7 @@ command-line
 
     cd passerine/
 
-:
+Tcl8.6.10
 
     tclsh syrinx.tcl
 
@@ -34,9 +34,13 @@ screenful view
 
     tclsh syrinx.tcl eadgbe flock | sensible-pager
 
-Tcl interactive shell (patchLevel 8.6.10)
+Tcl interactive
 
     tclsh
+
+:
+
+    string cat $tcl_platform(engine) $tcl_patchLevel
 
 :
 
@@ -52,7 +56,7 @@ Tcl interactive shell (patchLevel 8.6.10)
 
 :
 
-    set harp eadgbe; set sign n0
+    set sign n0; set harp eadgbe
 
 :
 
