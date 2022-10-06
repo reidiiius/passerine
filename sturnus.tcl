@@ -83,6 +83,8 @@
     variable lyrebird
 
     if {[array size lyrebird]} {
+      set crow [string repeat "____ " 12]
+
       puts ""
       foreach sign $clefs {
         set crow $lyrebird($sign)

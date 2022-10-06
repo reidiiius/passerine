@@ -1,9 +1,9 @@
-#! /usr/bin/sh
+#! /usr/bin/env sh
 
 PASS=0
 FAIL=0
 
-checkups () {
+checkup () {
   if test "$?" -eq '0';
   then
     PASS=$(($PASS+1))
@@ -22,31 +22,31 @@ sleep 1
 
 tclsh syrinx.tcl fkbjdn noop flock
 
-checkups
+checkup
 
 sleep 2
 
 tclsh syrinx.tcl beadgcf n0 k9 j3
 
-checkups
+checkup
 
 sleep 2
 
 tclsh syrinx.tcl 56
 
-checkups
+checkup
 
 sleep 2
 
 tclsh syrinx.tcl help
 
-checkups
+checkup
 
 sleep 2
 
 tclsh syrinx.tcl
 
-checkups
+checkup
 
 sleep 1
 

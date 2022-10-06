@@ -26,6 +26,10 @@ namespace eval Syrinx {
   source prefetch.tcl
   source sturnus.tcl
 
+  # if target present initialize or throw exception
+  anomalyP estrilda.tcl
+  anomalyP ploceus.tcl
+
   # entryway
   proc mainframe {} {
     global argc argv argv0 tcl_interactive
@@ -37,11 +41,6 @@ namespace eval Syrinx {
 
     # check for main script or loaded library
     if {$argv0 eq [info script] && !$tcl_interactive} {
-
-      # if target present initialize or throw exception
-      anomalyP estrilda.tcl
-
-      anomalyP ploceus.tcl
 
       # vessel to hold key signature names
       variable clefs {}
@@ -81,7 +80,6 @@ namespace eval Syrinx {
 
             unset clefs gears harp lyrebird kids tuned
             exit 0
-
           } else {
             # display matrices of chosen tuning and keys
             matrices [governor $kids 12] $harp
