@@ -2,6 +2,15 @@
 
 namespace eval Syrinx {
 
+  variable qualid
+  variable spandex
+
+  # name of current namespace
+  set qualid [namespace tail [namespace current]]
+
+  # maximum number of characters in a string
+  set spandex 15
+
   # change directory to child repository if needed
   proc repositron {} {
     set seat [file tail [info script]]
@@ -24,11 +33,14 @@ namespace eval Syrinx {
 
   # load subroutines
   source prefetch.tcl
-  source sturnus.tcl
+
+  # ::Syrinx::PreFetch
+  namespace path PreFetch
 
   # if target present initialize or throw exception
-  anomalyP estrilda.tcl
-  anomalyP ploceus.tcl
+  foreach target {estrilda ploceus sturnus} {
+    anomalyP ${target}.tcl
+  }
 
   # entryway
   proc mainframe {} {
@@ -41,6 +53,10 @@ namespace eval Syrinx {
 
     # check for main script or loaded library
     if {$argv0 eq [info script] && !$tcl_interactive} {
+
+      # see Tcl docs namespace upvar
+      upvar 0 PreFetch::tuners gears
+      upvar 0 PreFetch::songbird lyrebird
 
       # vessel to hold key signature names
       variable clefs {}
@@ -76,27 +92,56 @@ namespace eval Syrinx {
 
           if {[llength [lsearch -inline -exact $kids "flock"]]} {
             # display all matrices formatted in chosen tuning
-            gamuts $clefs $harp
+            if {[array size lyrebird]} {
+              set crow [string repeat "____ " 12]
+
+              puts ""
+              foreach sign $clefs {
+                set crow $lyrebird($sign)
+
+                fingerboard $sign $crow $harp
+
+                puts ""
+              }
+
+              unset crow sign
+            } else {
+              variable qualid
+
+              puts stderr "${qualid}::lyrebird is empty"
+            }
 
             unset clefs gears harp lyrebird kids tuned
             exit 0
           } else {
             # display matrices of chosen tuning and keys
-            matrices [governor $kids 12] $harp
+            set crow [string repeat "____ " 12]
 
-            unset harp kids
+            puts ""
+            foreach sign [governor $kids $spandex] {
+              # input characters quantity limit
+              if {[info exists lyrebird($sign)]} {
+                set crow $lyrebird($sign)
+
+                fingerboard $sign $crow $harp
+
+              } else {
+                puts stderr "\t$sign ?"
+              }
+              puts ""
+            }
+
+            unset crow harp sign kids
           }
         }
 
         unset tuned
-
       } else {
         # display menu of signature selections
         signboard {}
       }
 
       unset clefs gears lyrebird
-
     } else {
       # display sourcing error message with alternative example
       sourmash

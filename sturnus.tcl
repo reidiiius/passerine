@@ -1,15 +1,13 @@
 #! /usr/bin/env tclsh
 
-# sturnus.tcl
+namespace eval Sturnus {
+
+  namespace export *
 
   variable qualid
-  variable spandex
 
   # name of current namespace
   set qualid [namespace tail [namespace current]]
-
-  # maximum number of characters in a string
-  set spandex 15
 
   # limit quantity of standard input characters
   proc sentinel {argc argv caps} {
@@ -47,86 +45,6 @@
     return $kids
   }
 
-  # search through keys
-  proc research {clefs kinda} {
-    set clutch [list ]
-
-    if {[llength $clefs]} {
-      foreach egg $clefs {
-        lappend clutch $egg
-      }
-
-      unset egg
-    } else {
-      variable qualid
-
-      puts stderr "${qualid}::research passed an empty tuple"
-    }
-
-    if {[llength $clutch]} {
-      set clade [lsearch -all -inline $clutch *$kinda*]
-
-      if {[llength $clade]} {
-        signboard $clade
-      } else {
-        puts "\n\tNothing similar to $kinda\n"
-      }
-
-      unset clade
-    }
-
-    unset clutch
-  }
-
-  # display all matrices formatted in chosen tuning
-  proc gamuts {clefs harp} {
-    variable lyrebird
-
-    if {[array size lyrebird]} {
-      set crow [string repeat "____ " 12]
-
-      puts ""
-      foreach sign $clefs {
-        set crow $lyrebird($sign)
-
-        fingerboard $sign $crow $harp
-
-        puts ""
-      }
-
-      unset crow sign
-    } else {
-      variable qualid
-
-      puts stderr "${qualid}::lyrebird is empty"
-    }
-  }
-
-  # display matrices of chosen tuning and keys
-  proc matrices {kids harp} {
-    variable lyrebird
-    variable spandex
-    set crow [string repeat "____ " 12]
-
-    puts ""
-    foreach sign $kids {
-      # input characters quantity limit
-      if {[string length $sign] < $spandex &&
-          [info exists lyrebird($sign)]
-      } then {
-        set crow $lyrebird($sign)
-
-        fingerboard $sign $crow $harp
-
-      } else {
-        puts stderr "\t[string range $sign 0 9] ?"
-      }
-      puts ""
-    }
-
-    unset crow harp sign kids
-  }
-
   # display help message with examples
   proc examples {gears} {
     set demos "\nTunings:\n\t%s\n\nExample:\n\ttclsh %s %s n0 j3\n"
@@ -146,4 +64,6 @@
 
     unset demos mnemo
   }
+
+} ;#close Sturnus
 

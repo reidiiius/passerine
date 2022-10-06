@@ -2,7 +2,7 @@
 
 namespace eval Estrilda {
 
-  namespace export signboard
+  namespace export signboard research
 
   variable oscines
   variable qualid
@@ -44,6 +44,37 @@ namespace eval Estrilda {
     puts "\n"
 
     unset signs
+  }
+
+  # search through keys
+  proc research {clefs kinda} {
+    set clutch [list ]
+
+    if {[llength $clefs]} {
+      foreach egg $clefs {
+        lappend clutch $egg
+      }
+
+      unset egg
+    } else {
+      variable qualid
+
+      puts stderr "${qualid}::research passed an empty tuple"
+    }
+
+    if {[llength $clutch]} {
+      set clade [lsearch -all -inline $clutch *$kinda*]
+
+      if {[llength $clade]} {
+        signboard $clade
+      } else {
+        puts "\n\tNothing similar to $kinda\n"
+      }
+
+      unset clade
+    }
+
+    unset clutch
   }
 
   array set oscines {
