@@ -1,4 +1,3 @@
-#! /usr/bin/env tclsh
 
 namespace eval Sturnus {
 
@@ -65,5 +64,5 @@ namespace eval Sturnus {
     unset demos mnemo
   }
 
-} ;#close Sturnus
+} ;# close Sturnus
 

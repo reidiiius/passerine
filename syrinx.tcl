@@ -34,9 +34,6 @@ namespace eval Syrinx {
   # load subroutines
   source prefetch.tcl
 
-  # ::Syrinx::PreFetch
-  namespace path PreFetch
-
   # if target present initialize or throw exception
   foreach target {estrilda ploceus sturnus} {
     anomalyP ${target}.tcl
@@ -54,9 +51,9 @@ namespace eval Syrinx {
     # check for main script or loaded library
     if {$argv0 eq [info script] && !$tcl_interactive} {
 
-      # see Tcl docs namespace upvar
-      upvar 0 PreFetch::tuners gears
-      upvar 0 PreFetch::songbird lyrebird
+      # reference pointers
+      upvar 1 tuners gears
+      upvar 1 songbird lyrebird
 
       # vessel to hold key signature names
       variable clefs {}
@@ -77,7 +74,7 @@ namespace eval Syrinx {
           if {[string length $kinda] < $spandex} {
             research $clefs $kinda
           } else {
-            puts stderr "\n\t[string range $kinda 0 9]... ?\n"
+            puts stderr "\n\t${kinda}... ?\n"
           }
 
           unset kinda
@@ -147,7 +144,7 @@ namespace eval Syrinx {
       sourmash
     }
 
-    unset qualid
+    unset qualid spandex
   }
 
   # entryway

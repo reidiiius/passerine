@@ -1,11 +1,5 @@
-#! /usr/bin/env tclsh
 
-namespace eval PreFetch {
-
-  variable qualid
-
-  # name of current namespace
-  set qualid [namespace tail [namespace current]]
+# prefetch.tcl
 
   # initialize Estrilda
   proc init_estrilda {} {
@@ -75,6 +69,4 @@ namespace eval PreFetch {
       exit 1
     }
   }
-
-} ;# close PreFetch
 

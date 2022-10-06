@@ -1,4 +1,3 @@
-#! /usr/bin/env tclsh
 
 namespace eval Estrilda {
 
