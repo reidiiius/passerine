@@ -81,10 +81,24 @@ namespace eval Ploceus {
     }
   }
 
+  # from input sets values for layout
   proc fingerboard {sign crow harp} {
-    if {[string length $crow] != 60} {
+    set clef [string length $sign]
+    set cols [string length $crow]
+    set lute [string length $harp]
+
+    if {$clef < 1 || $clef > 9} {
+      set sign z0
+    }
+    if {$cols < 36 || $cols > 72} {
+      set crow [string repeat "____ " 12]
       set harp unison
     }
+    if {$lute < 1 || $lute > 16} {
+      set harp unison
+    }
+
+    unset clef cols lute
 
     variable tributes
     lset tributes(sign) $sign

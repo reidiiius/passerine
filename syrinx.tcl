@@ -116,7 +116,6 @@ namespace eval Syrinx {
 
             puts ""
             foreach sign [governor $kids $spandex] {
-              # input characters quantity limit
               if {[info exists lyrebird($sign)]} {
                 set crow $lyrebird($sign)
 
@@ -140,7 +139,7 @@ namespace eval Syrinx {
 
       unset clefs gears lyrebird
     } else {
-      # display sourcing error message with alternative example
+      # display sourcing error message
       sourmash
     }
 
