@@ -2,54 +2,38 @@
 
 namespace eval Syrinx {
 
-  variable qualid
-  variable spandex
+  # maximum number of input characters
+  variable spandex 15
 
-  # name of current namespace
-  set qualid [namespace tail [namespace current]]
+  # check targets to be sourced
+  variable timeline
+  set timeline [clock format [clock seconds] \
+    -timezone UTC -format "%Y-%m-%dT%TZ"]
 
-  # maximum number of characters in a string
-  set spandex 15
+  variable resources {}
+  lset resources {estrilda.tcl ploceus.tcl sturnus.tcl prefetch.tcl}
 
-  # change directory to child repository if needed
-  proc repositron {} {
-    set seat [file tail [info script]]
-    set path [file normalize [file dirname $seat]]
-
-    # determine parent directory or child repository
-    if {![string match -nocase *passerine* $path]} {
-      foreach folder [lsort [glob -type d *]] {
-        if {[string match -nocase *passerine* $folder]} {
-          cd $folder
+  lmap target $resources {
+    apply { {capsule dateline}
+      {
+        if {
+          [file exists $capsule] &&
+          [file isfile $capsule] &&
+          [file readable $capsule]
+        } then {
+          source $capsule
+        } else {
+          puts stderr "problem sourcing $capsule $dateline"
+          exit 1
         }
       }
-    }
-
-    unset path seat
-  }
-
-  # navigate pathway
-  repositron
-
-  # load subroutines
-  source prefetch.tcl
-
-  # if target present initialize or throw exception
-  foreach target {estrilda ploceus sturnus} {
-    anomalyP ${target}.tcl
+    } $target $timeline
   }
 
   # entryway
-  proc mainframe {} {
-    global argc argv argv0 tcl_interactive
-
-    variable gears
-    variable lyrebird
-    variable qualid
-    variable spandex
-
-    # check for main script or loaded library
-    if {$argv0 eq [info script] && !$tcl_interactive} {
+  apply { {spandex}
+    {
+      global argc argv
 
       # reference pointers
       upvar 1 tuners gears
@@ -61,7 +45,7 @@ namespace eval Syrinx {
 
       if {$argc} then {
         # limit quantity of input characters
-        sentinel $argc $argv $spandex
+        Sturnus::sentinel $argc $argv $spandex
 
         # establish instrument tuning
         set tuned [lindex $gears [lsearch -exact $gears [lindex $argv 0]]]
@@ -72,7 +56,7 @@ namespace eval Syrinx {
 
           # input characters quantity limit
           if {[string length $kinda] < $spandex} {
-            research $clefs $kinda
+            Estrilda::research $clefs $kinda
           } else {
             puts stderr "\n\t${kinda}... ?\n"
           }
@@ -80,7 +64,7 @@ namespace eval Syrinx {
           unset kinda
         } elseif {$argc eq 1 || ![llength $tuned]} {
           # display help message with examples
-          examples $gears
+          Sturnus::examples $gears
 
         } elseif {$argc > 1 && [llength $tuned]} {
           # correct tuning chosen so parse variant arguments
@@ -89,6 +73,7 @@ namespace eval Syrinx {
 
           if {[llength [lsearch -inline -exact $kids "flock"]]} {
             # display all matrices formatted in chosen tuning
+
             if {[array size lyrebird]} {
               set crow [string repeat "____ " 12]
 
@@ -96,16 +81,15 @@ namespace eval Syrinx {
               foreach sign $clefs {
                 set crow $lyrebird($sign)
 
-                fingerboard $sign $crow $harp
+                Ploceus::fingerboard $sign $crow $harp
 
                 puts ""
               }
 
               unset crow sign
             } else {
-              variable qualid
-
-              puts stderr "${qualid}::lyrebird is empty"
+              puts stderr "lyrebird is empty"
+              exit 1
             }
 
             unset clefs gears harp lyrebird kids tuned
@@ -115,11 +99,11 @@ namespace eval Syrinx {
             set crow [string repeat "____ " 12]
 
             puts ""
-            foreach sign [governor $kids $spandex] {
+            foreach sign [Sturnus::governor $kids $spandex] {
               if {[info exists lyrebird($sign)]} {
                 set crow $lyrebird($sign)
 
-                fingerboard $sign $crow $harp
+                Ploceus::fingerboard $sign $crow $harp
 
               } else {
                 puts stderr "\t$sign ?"
@@ -134,20 +118,13 @@ namespace eval Syrinx {
         unset tuned
       } else {
         # display menu of signature selections
-        signboard {}
+        Estrilda::signboard {}
       }
 
       unset clefs gears lyrebird
-    } else {
-      # display sourcing error message
-      sourmash
     }
+  } $spandex
 
-    unset qualid spandex
-  }
-
-  # entryway
-  mainframe
-
+  unset resources spandex target timeline
 } ;# close Syrinx
 

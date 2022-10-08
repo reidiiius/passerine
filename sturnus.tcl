@@ -3,11 +3,6 @@ namespace eval Sturnus {
 
   namespace export *
 
-  variable qualid
-
-  # name of current namespace
-  set qualid [namespace tail [namespace current]]
-
   # limit quantity of standard input characters
   proc sentinel {argc argv caps} {
     set item 0
@@ -50,16 +45,6 @@ namespace eval Sturnus {
     set mnemo [info script]
 
     puts [format $demos $gears $mnemo [lindex $gears 0]]
-
-    unset demos mnemo
-  }
-
-  # display sourcing error message with alternative example
-  proc sourmash {} {
-    set demos "\nUnable to source %s\n\nExample:\n\ttclsh %s help\n"
-    set mnemo [info script]
-
-    puts stderr [format $demos $mnemo $mnemo]
 
     unset demos mnemo
   }

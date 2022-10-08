@@ -5,7 +5,6 @@ namespace eval Ploceus {
 
   variable machines
   variable metallic
-  variable qualid
   variable sequence
   variable tributes
   variable utensils
@@ -15,9 +14,6 @@ namespace eval Ploceus {
 
   # configure digraphs
   set metallic false
-
-  # name of current namespace
-  set qualid [namespace tail [namespace current]]
 
   # current time as integer
   set sequence [clock milliseconds]

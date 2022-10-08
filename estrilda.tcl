@@ -59,6 +59,7 @@ namespace eval Estrilda {
       variable qualid
 
       puts stderr "${qualid}::research passed an empty tuple"
+      exit 1
     }
 
     if {[llength $clutch]} {
