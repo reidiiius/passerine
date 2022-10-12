@@ -48,7 +48,7 @@ Tcl interactive
 
 :
 
-    Estrilda::signboard {}
+    Estrilda::signboard
 
 :
 

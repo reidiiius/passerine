@@ -11,7 +11,7 @@ namespace eval Syrinx {
     -timezone UTC -format "%Y-%m-%dT%TZ"]
 
   variable resources {}
-  lset resources {estrilda.tcl ploceus.tcl sturnus.tcl prefetch.tcl}
+  lset resources {estrilda.tcl ploceus.tcl sturnus.tcl}
 
   lmap target $resources {
     apply { {capsule dateline}
@@ -30,6 +30,40 @@ namespace eval Syrinx {
     } $target $timeline
   }
 
+  # initialization
+  apply { {dateline} {
+    variable songbird
+    variable tuners
+
+    if {[namespace exists ::Estrilda]} {
+      namespace import ::Estrilda::*
+      namespace upvar ::Estrilda oscines temps
+
+      array set songbird [array get temps]
+    } else {
+      puts stderr "Estrilda absent! $dateline"
+      exit 1
+    }
+
+    if {[namespace exists ::Ploceus]} {
+      namespace import ::Ploceus::fingerboard
+      namespace upvar ::Ploceus machines temps
+
+      set tuners $temps
+    } else {
+      puts stderr "Ploceus absent! $dateline"
+      exit 1
+    }
+
+    if {[namespace exists ::Sturnus]} {
+      namespace import ::Sturnus::*
+
+    } else {
+      puts stderr "Sturnus absent! $dateline"
+      exit 1
+    }
+  }} $timeline
+
   # entryway
   apply { {spandex}
     {
@@ -40,36 +74,41 @@ namespace eval Syrinx {
       upvar 1 songbird lyrebird
 
       # vessel to hold key signature names
-      variable clefs {}
-      lset clefs [lsort -ascii [array names lyrebird]]
+      set clefs [lsort -ascii [array names lyrebird]]
 
       if {$argc} then {
-        # limit quantity of input characters
-        Sturnus::sentinel $argc $argv $spandex
+        set carts $argc
+
+        # maximum amount of input arguments
+        set climax [expr {[llength $clefs] + 1}]
+
+        # vessel to hold limited arguments
+        set argots [list ]
+
+        # limit input arguments to be processed
+        lset argots [Sturnus::governor $climax $argv]
+
+        # limit quantity of characters for each argument
+        lset argots [Sturnus::sentinel $argots $spandex]
 
         # establish instrument tuning
-        set tuned [lindex $gears [lsearch -exact $gears [lindex $argv 0]]]
+        set tuned [lindex $gears [lsearch -exact $gears [lindex $argots 0]]]
 
-        if {$argc eq 1 && [string match {*[0-9]*} [lindex $argv 0]]} {
-          # search through keys
-          set kinda [lindex $argv 0]
+        # numerically search through keys
+        if {$carts eq 1 && [string match {*[0-9]*} [lindex $argots 0]]} {
+          set kinda [lindex $argots 0]
 
-          # input characters quantity limit
-          if {[string length $kinda] < $spandex} {
-            Estrilda::research $clefs $kinda
-          } else {
-            puts stderr "\n\t${kinda}... ?\n"
-          }
+          Estrilda::research $clefs $kinda
 
           unset kinda
-        } elseif {$argc eq 1 || ![llength $tuned]} {
+        } elseif {$carts eq 1 || ![llength $tuned]} {
           # display help message with examples
           Sturnus::examples $gears
 
-        } elseif {$argc > 1 && [llength $tuned]} {
+        } elseif {$carts > 1 && [llength $tuned]} {
           # correct tuning chosen so parse variant arguments
-          set harp [lindex $argv 0]
-          set kids [lrange $argv 1 end]
+          set harp [lindex $argots 0]
+          set kids [lrange $argots 1 end]
 
           if {[llength [lsearch -inline -exact $kids "flock"]]} {
             # display all matrices formatted in chosen tuning
@@ -99,7 +138,7 @@ namespace eval Syrinx {
             set crow [string repeat "____ " 12]
 
             puts ""
-            foreach sign [Sturnus::governor $kids $spandex] {
+            foreach sign $kids {
               if {[info exists lyrebird($sign)]} {
                 set crow $lyrebird($sign)
 
@@ -115,10 +154,10 @@ namespace eval Syrinx {
           }
         }
 
-        unset tuned
+        unset argots carts climax tuned
       } else {
-        # display menu of signature selections
-        Estrilda::signboard {}
+        # display menu of signatures
+        Estrilda::signboard
       }
 
       unset clefs gears lyrebird

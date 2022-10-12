@@ -13,7 +13,7 @@ namespace eval Estrilda {
   # name of current namespace
   set qualid [namespace tail [namespace current]]
 
-  proc signboard {clefs} {
+  proc signboard {{clefs {}}} {
     if {[llength $clefs]} {
       set signs [lsort $clefs]
     } else {

@@ -122,7 +122,7 @@ namespace eval Ploceus {
       }
     }
 
-    layout
+    tailcall layout
   }
 
 } ;# close Ploceus

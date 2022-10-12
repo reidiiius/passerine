@@ -4,39 +4,32 @@ namespace eval Sturnus {
   namespace export *
 
   # limit quantity of standard input characters
-  proc sentinel {argc argv caps} {
+  proc sentinel {argots {caps 24}} {
+    set narc [llength $argots]
     set item 0
 
-    while {$item ne $argc} {
-      if {[string length [lindex $argv $item]] > $caps} {
+    while {$item < $narc} {
+      if {[string length [lindex $argots $item]] > $caps} {
         # govern amount of characters in violator argument
-        lset argv $item [string range [lindex $argv $item] 0 $caps]
-      }
-
-      incr item
-    }
-
-    unset item
-  }
-
-  # limits quantity of characters for each element of
-  # given list and returns normalized list of strings
-  # see procedure sentinel and variable spandex
-  proc governor {kids caps} {
-    set narc [llength $kids]
-    set item 0
-
-    while {$item ne $narc} {
-      if {[string length [lindex $kids $item]] > $caps} {
-        # govern amount of characters in violator argument
-        lset kids $item [string range [lindex $kids $item] 0 $caps]
+        lset argots $item [string range [lindex $argots $item] 0 $caps]
       }
 
       incr item
     }
 
     unset item narc
-    return $kids
+    return $argots
+  }
+
+  # limit input arguments to be processed
+  proc governor {maxine argues} {
+    if {$maxine >= [llength $argues]} {
+      set group $argues
+    } else {
+      set group [lrange $argues 0 [expr {$maxine - 1}]]
+    }
+
+    return $group
   }
 
   # display help message with examples
