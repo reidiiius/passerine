@@ -22,14 +22,12 @@ namespace eval Sturnus {
   }
 
   # limit input arguments to be processed
-  proc governor {maxine argues} {
-    if {$maxine >= [llength $argues]} {
-      set group $argues
-    } else {
-      set group [lrange $argues 0 [expr {$maxine - 1}]]
+  proc governor {argots {caps 128}} {
+    if {[llength $argots] > $caps} {
+      set argots [lrange $argots 0 [expr {$caps - 1}]]
     }
 
-    return $group
+    return $argots
   }
 
   # display help message with examples

@@ -2,9 +2,6 @@
 
 namespace eval Syrinx {
 
-  # maximum number of input characters
-  variable spandex 15
-
   # check targets to be sourced
   variable timeline
   set timeline [clock format [clock seconds] \
@@ -32,14 +29,9 @@ namespace eval Syrinx {
 
   # initialization
   apply { {dateline} {
-    variable songbird
-    variable tuners
-
     if {[namespace exists ::Estrilda]} {
       namespace import ::Estrilda::*
-      namespace upvar ::Estrilda oscines temps
 
-      array set songbird [array get temps]
     } else {
       puts stderr "Estrilda absent! $dateline"
       exit 1
@@ -47,9 +39,7 @@ namespace eval Syrinx {
 
     if {[namespace exists ::Ploceus]} {
       namespace import ::Ploceus::fingerboard
-      namespace upvar ::Ploceus machines temps
 
-      set tuners $temps
     } else {
       puts stderr "Ploceus absent! $dateline"
       exit 1
@@ -65,28 +55,23 @@ namespace eval Syrinx {
   }} $timeline
 
   # entryway
-  apply { {spandex}
+  apply { {carts argots}
     {
-      global argc argv
-
-      # reference pointers
-      upvar 1 tuners gears
-      upvar 1 songbird lyrebird
+      namespace upvar Estrilda oscines songbirds
+      namespace upvar Ploceus machines gears
 
       # vessel to hold key signature names
-      set clefs [lsort -ascii [array names lyrebird]]
+      set clefs [lsort -ascii [array names songbirds]]
 
-      if {$argc} then {
-        set carts $argc
-
+      if {$carts} then {
         # maximum amount of input arguments
         set climax [expr {[llength $clefs] + 1}]
 
-        # vessel to hold limited arguments
-        set argots [list ]
+        # maximum number of input characters
+        set spandex 15
 
         # limit input arguments to be processed
-        lset argots [Sturnus::governor $climax $argv]
+        lset argots [Sturnus::governor $argots $climax]
 
         # limit quantity of characters for each argument
         lset argots [Sturnus::sentinel $argots $spandex]
@@ -113,12 +98,12 @@ namespace eval Syrinx {
           if {[llength [lsearch -inline -exact $kids "flock"]]} {
             # display all matrices formatted in chosen tuning
 
-            if {[array size lyrebird]} {
+            if {[array size songbirds]} {
               set crow [string repeat "____ " 12]
 
               puts ""
               foreach sign $clefs {
-                set crow $lyrebird($sign)
+                set crow $songbirds($sign)
 
                 Ploceus::fingerboard $sign $crow $harp
 
@@ -127,11 +112,11 @@ namespace eval Syrinx {
 
               unset crow sign
             } else {
-              puts stderr "lyrebird is empty"
+              puts stderr "songbirds is empty"
               exit 1
             }
 
-            unset clefs gears harp lyrebird kids tuned
+            unset clefs gears harp kids songbirds tuned
             exit 0
           } else {
             # display matrices of chosen tuning and keys
@@ -139,8 +124,8 @@ namespace eval Syrinx {
 
             puts ""
             foreach sign $kids {
-              if {[info exists lyrebird($sign)]} {
-                set crow $lyrebird($sign)
+              if {[info exists songbirds($sign)]} {
+                set crow $songbirds($sign)
 
                 Ploceus::fingerboard $sign $crow $harp
 
@@ -154,16 +139,16 @@ namespace eval Syrinx {
           }
         }
 
-        unset argots carts climax tuned
+        unset argots carts climax spandex tuned
       } else {
         # display menu of signatures
         Estrilda::signboard
       }
 
-      unset clefs gears lyrebird
+      unset clefs gears songbirds
     }
-  } $spandex
+  } $argc $argv
 
-  unset resources spandex target timeline
+  unset resources target timeline
 } ;# close Syrinx
 
