@@ -63,15 +63,12 @@ namespace eval Syrinx {
       # vessel to hold key signature names
       set clefs [lsort -ascii [array names songbirds]]
 
-      if {$carts} then {
-        # maximum amount of input arguments
-        set climax [expr {[llength $clefs] + 1}]
+      # maximum amount of input arguments
+      set climax [expr {[llength $clefs] + 1}]
 
+      if {$carts && $carts <= $climax} then {
         # maximum number of input characters
         set spandex 15
-
-        # limit input arguments to be processed
-        lset argots [Sturnus::governor $argots $climax]
 
         # limit quantity of characters for each argument
         lset argots [Sturnus::sentinel $argots $spandex]
@@ -150,5 +147,6 @@ namespace eval Syrinx {
   } $argc $argv
 
   unset resources target timeline
+  return ok
 } ;# close Syrinx
 

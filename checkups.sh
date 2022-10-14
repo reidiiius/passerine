@@ -1,5 +1,7 @@
 #! /usr/bin/env sh
 
+APPL='syrinx.tcl'
+
 PASS=0
 FAIL=0
 
@@ -20,31 +22,40 @@ echo "\n Beginning Test\n"
 
 sleep 1
 
-tclsh syrinx.tcl fkbjdn noop flock
+tclsh "$APPL" fkbjdn noop flock
 
 checkup
 
 sleep 2
 
-tclsh syrinx.tcl beadgcf n0 k9 j3
+tclsh "$APPL" cgdae $(ITR=1; MAX=86;
+  while test "$ITR" -lt "$MAX";
+  do printf "%s " "$ITR"; ITR=$(($ITR+1));
+  done)
 
 checkup
 
 sleep 2
 
-tclsh syrinx.tcl 56
+tclsh "$APPL" beadgcf n0 k9 j3
 
 checkup
 
 sleep 2
 
-tclsh syrinx.tcl help
+tclsh "$APPL" 56
 
 checkup
 
 sleep 2
 
-tclsh syrinx.tcl
+tclsh "$APPL" help
+
+checkup
+
+sleep 2
+
+tclsh "$APPL"
 
 checkup
 

@@ -43,8 +43,8 @@ namespace eval Ploceus {
     variable utensils
     variable tributes
 
-    set wire [
-      concat [string range $tributes(crow) $utensils($pitch) end] [
+    set wire [string cat [
+        string range $tributes(crow) $utensils($pitch) end ] [
         string range $tributes(crow) 0 [expr $utensils($pitch) - 1]
       ]
     ]
