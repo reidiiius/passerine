@@ -75,6 +75,8 @@ namespace eval Ploceus {
     foreach pitch $tributes(pegs) {
       puts [format "\t%s" [headstock $pitch]]
     }
+
+    return
   }
 
   # from input sets values for layout

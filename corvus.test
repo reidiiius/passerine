@@ -18,81 +18,167 @@ namespace eval ::Corvus::test {
   variable crow $songbirds($sign)
   variable harp beadgcf
 
-  test corvus-0.0 {error return} -body {
-    error message
-  } -returnCodes error -result message
-
   # estrilda test
 
-  test estrilda-1.0 {normal return} -body {
+  test estrilda-1.0 {qualid value} -body {
     string tolower $Estrilda::qualid
-  } -returnCodes 0 -result estrilda
+  } -result estrilda
 
-  test estrilda-1.1 {normal return} {
+  test estrilda-1.1 {songbirds existence} {
     array exists songbirds
   } 1
 
-  test estrilda-1.2 {normal return} {
+  test estrilda-1.2 {songbirds has 84 records} {
+    array size songbirds
+  } 84
+
+  test estrilda-1.3 {crow value ascii} {
+    string is ascii -strict $crow
+  } 1
+
+  test estrilda-1.4 {crow string length} {
     string length $crow
   } 60
 
-  test estrilda-1.3 {normal return} {
-    string is ascii $crow
+  test estrilda-1.5 {crow value tuple} {
+    string is list -strict $crow
   } 1
 
-  test estrilda-1.4 {normal return} {
-    string is alnum [Estrilda::signboard]
+  test estrilda-1.6 {crow list length} {
+    llength $crow
+  } 12
+
+  test estrilda-1.7 {crow consecutive underscores} {
+    string match *\x5F\x5F* $crow
   } 1
 
-  test estrilda-1.5 {normal return} {
-    string is list [Estrilda::signboard $clefs]
+  test estrilda-1.8 {signboard passed nothing} {
+    Estrilda::signboard
+  } 0
+
+  test estrilda-1.9 {signboard passed empty tuple} {
+    Estrilda::signboard {}
+  } 0
+
+  test estrilda-1.10 {signboard passed inhabited tuple} {
+    Estrilda::signboard $clefs
+  } 0
+
+  test estrilda-1.11 {research passed empty tuple} {
+    Estrilda::research {} 99
   } 1
 
-  test estrilda-1.6 {normal return} {
-    string is alnum [Estrilda::research $clefs $sign]
-  } 1
+  test estrilda-1.12 {research matchless} {
+    Estrilda::research $clefs 99
+  } 0
 
-  test estrilda-1.7 {normal return} {
-    string is list [Estrilda::research $clefs $sign]
-  } 1
+  test estrilda-1.13 {research matches} {
+    Estrilda::research $clefs $sign
+  } 0
 
   # ploceus test
 
-  test ploceus-2.0 {normal return} {
-    string is alnum [Ploceus::fingerboard $sign $crow $harp]
+  test ploceus-1.0 {gears has 5 elements} {
+    llength $gears
+  } 5
+
+  test ploceus-1.1 {matallic is ascii} {
+    string is ascii -strict $Ploceus::metallic
   } 1
 
+  test ploceus-1.2 {matallic is boolean} {
+    string is boolean -strict $Ploceus::metallic
+  } 1
+
+  test ploceus-1.3 {matallic is false} {
+    string is false -strict $Ploceus::metallic
+  } 1
+
+  test ploceus-1.4 {sequence is digit} {
+    string is digit -strict $Ploceus::sequence
+  } 1
+
+  test ploceus-1.5 {sequence is number} {
+    expr {0 < $Ploceus::sequence}
+  } 1
+
+  test ploceus-1.6 {tributes existence} {
+    array exists Ploceus::tributes
+  } 1
+
+  test ploceus-1.7 {tributes has 4 records} {
+    array size Ploceus::tributes
+  } 4
+
+  test ploceus-1.8 {utensils existence} {
+    array exists Ploceus::utensils
+  } 1
+
+  test ploceus-1.9 {utensils has 9 records} {
+    array size Ploceus::utensils
+  } 9
+
+  test ploceus-2.0 {fingerboard returns null} -setup {
+    set sign k2j6
+    set crow $songbirds($sign)
+    set harp beadgcf
+  } -body {
+    Ploceus::fingerboard $sign $crow $harp
+  } -cleanup {
+    unset crow harp sign
+  } -result {}
   puts ""
-
-  test ploceus-2.1 {normal return} {
-    string is list [Ploceus::fingerboard $sign $crow $harp]
-  } 1
 
   # sturnus test
 
-  test sturnus-1.0 {normal return} {
-     string is list [Sturnus::governor $clefs]
-  } 1
+  test sturnus-1.0 {governor passed empty tuple} {
+    llength [Sturnus::governor {}]
+  } 0
 
-  test sturnus-1.1 {normal return} {
-     string is alnum [lindex [Sturnus::governor $clefs] end]
-  } 1
+  test sturnus-1.1 {governor passed inhabited tuple} -setup {
+    set group [concat $clefs $clefs]
+  } -body {
+    llength [Sturnus::governor $group]
+  } -cleanup {
+    unset group
+  } -result 128 ;# default param value
 
-  test sturnus-1.2 {normal return} {
-     string is list [Sturnus::sentinel $clefs]
-  } 1
+  test sturnus-1.2 {governor passed tuple and max value} -setup {
+    set group [concat $clefs $clefs]
+  } -body {
+    llength [Sturnus::governor $group [llength $clefs]]
+  } -cleanup {
+    unset group
+  } -result [llength $clefs]
 
-  test sturnus-1.3 {normal return} {
-     string is alnum [lindex [Sturnus::sentinel $clefs] end]
-  } 1
+  test sturnus-1.3 {sentinel passed empty tuple} {
+    llength [Sturnus::sentinel {}]
+  } 0
 
-  test sturnus-1.4 {normal return} {
-     string is list [Sturnus::examples $gears]
-  } 1
+  test sturnus-1.4 {sentinel passed inhabited tuple} -setup {
+    set group [lsort $clefs]
+  } -body {
+    string length [lindex [Sturnus::sentinel $group] end-2]
+  } -cleanup {
+    unset group
+  } -result 5
 
-  test sturnus-1.5 {normal return} {
-     string is alnum [Sturnus::examples $gears]
-  } 1
+  test sturnus-1.5 {sentinel passed tuple and max value} -setup {
+    set group [lsort $clefs]
+    set maxel 1
+  } -body {
+    string length [lindex [Sturnus::sentinel $group $maxel] end-2]
+  } -cleanup {
+    unset group maxel
+  } -result 2
+
+  test sturnus-1.6 {examples passed empty tuple} {
+    Sturnus::examples
+  } ok
+
+  test sturnus-1.7 {examples passed inhabited tuple} {
+    Sturnus::examples $gears
+  } ok
 
   puts ""
 

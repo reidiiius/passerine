@@ -43,6 +43,7 @@ namespace eval Estrilda {
     puts "\n"
 
     unset signs
+    return 0
   }
 
   # search through keys
@@ -59,7 +60,9 @@ namespace eval Estrilda {
       variable qualid
 
       puts stderr "${qualid}::research passed an empty tuple"
-      exit 1
+
+      unset clutch
+      return 1
     }
 
     if {[llength $clutch]} {
@@ -75,6 +78,7 @@ namespace eval Estrilda {
     }
 
     unset clutch
+    return 0
   }
 
   array set oscines {

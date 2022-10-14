@@ -31,13 +31,14 @@ namespace eval Sturnus {
   }
 
   # display help message with examples
-  proc examples {gears} {
+  proc examples {{gears {cgdae eadgbe}}} {
     set demos "\nTunings:\n\t%s\n\nExample:\n\ttclsh %s %s n0 j3\n"
     set mnemo [info script]
 
     puts [format $demos $gears $mnemo [lindex $gears 0]]
 
     unset demos mnemo
+    return ok
   }
 
 } ;# close Sturnus
