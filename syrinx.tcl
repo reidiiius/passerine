@@ -2,11 +2,12 @@
 
 namespace eval Syrinx {
 
-  # check targets to be sourced
+  # iso-8601 zulu time
   variable timeline
   set timeline [clock format [clock seconds] \
     -timezone UTC -format "%Y-%m-%dT%TZ"]
 
+  # check targets to be sourced
   variable resources {}
   lset resources {estrilda.tcl ploceus.tcl sturnus.tcl}
 
@@ -136,13 +137,13 @@ namespace eval Syrinx {
           }
         }
 
-        unset argots carts climax spandex tuned
+        unset argots carts spandex tuned
       } else {
         # display menu of signatures
         Estrilda::signboard
       }
 
-      unset clefs gears songbirds
+      unset clefs climax gears songbirds
     }
   } $argc $argv
 
