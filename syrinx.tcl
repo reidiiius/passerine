@@ -1,32 +1,42 @@
 #! /usr/bin/env tclsh
 
+# check targets to be sourced
+proc exordium {} {
+  set resources {estrilda.tcl ploceus.tcl sturnus.tcl}
+
+  lmap target $resources {
+    apply { {capsule}
+      {
+        if {
+          [file exists $capsule] &&
+          [file isfile $capsule]
+        } then {
+          source $capsule
+        } else {
+          set zulutime [clock format [clock seconds] \
+            -timezone UTC -format "%Y-%m-%dT%TZ"]
+
+          puts stderr "problem sourcing $capsule $zulutime"
+
+          unset zulutime
+          exit 1
+        }
+      }
+    } $target
+  }
+
+  unset resources target
+  return
+}
+
+exordium
+
 namespace eval Syrinx {
 
   # iso-8601 zulu time
   variable timeline
   set timeline [clock format [clock seconds] \
     -timezone UTC -format "%Y-%m-%dT%TZ"]
-
-  # check targets to be sourced
-  variable resources {}
-  lset resources {estrilda.tcl ploceus.tcl sturnus.tcl}
-
-  lmap target $resources {
-    apply { {capsule dateline}
-      {
-        if {
-          [file exists $capsule] &&
-          [file isfile $capsule] &&
-          [file readable $capsule]
-        } then {
-          source $capsule
-        } else {
-          puts stderr "problem sourcing $capsule $dateline"
-          exit 1
-        }
-      }
-    } $target $timeline
-  }
 
   # initialization
   apply { {dateline} {
@@ -114,7 +124,8 @@ namespace eval Syrinx {
               exit 1
             }
 
-            unset clefs gears harp kids songbirds tuned
+            unset argots carts clefs climax gears
+            unset harp kids songbirds spandex tuned
             exit 0
           } else {
             # display matrices of chosen tuning and keys
@@ -144,10 +155,10 @@ namespace eval Syrinx {
       }
 
       unset clefs climax gears songbirds
+      return
     }
   } $argc $argv
 
-  unset resources target timeline
-  return
+  unset timeline
 } ;# close Syrinx
 
