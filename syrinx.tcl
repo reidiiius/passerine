@@ -147,6 +147,6 @@ namespace eval Syrinx {
   } $argc $argv
 
   unset resources target timeline
-  return ok
+  return
 } ;# close Syrinx
 

@@ -72,7 +72,7 @@ Tcl interactive
 
 :
 
-    Estrilda::signboard [lsearch -all -inline $clefs *k?]
+    Estrilda::research $clefs *k?
 
 :
 

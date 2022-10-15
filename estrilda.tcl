@@ -43,7 +43,7 @@ namespace eval Estrilda {
     puts "\n"
 
     unset signs
-    return 0
+    return
   }
 
   # search through keys
@@ -78,7 +78,7 @@ namespace eval Estrilda {
     }
 
     unset clutch
-    return 0
+    return
   }
 
   array set oscines {

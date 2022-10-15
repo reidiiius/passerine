@@ -81,11 +81,11 @@ namespace eval ::Corvus::test {
 
   test estrilda-2.0 {signboard passed nothing} {
     Estrilda::signboard
-  } 0
+  } {}
 
   test estrilda-2.1 {signboard passed empty tuple} {
     Estrilda::signboard {}
-  } 0
+  } {}
 
   test estrilda-2.2 {signboard passed inhabited tuple} -setup {
     set clefs [array names Estrilda::oscines]
@@ -93,7 +93,7 @@ namespace eval ::Corvus::test {
     Estrilda::signboard $clefs
   } -cleanup {
     unset clefs
-  } -result 0
+  } -result {}
 
   test estrilda-2.3 {research passed empty tuple} {
     Estrilda::research {} 99
@@ -105,7 +105,7 @@ namespace eval ::Corvus::test {
     Estrilda::research $clefs 99
   } -cleanup {
     unset clefs
-  } -result 0
+  } -result {}
 
   test estrilda-2.5 {research matches} -setup {
     set clefs [array names Estrilda::oscines]
@@ -114,7 +114,7 @@ namespace eval ::Corvus::test {
     Estrilda::research $clefs $sign
   } -cleanup {
     unset clefs sign
-  } -result 0
+  } -result {}
 
   roost 1
   puts "\n\t\t| Ploceus Test |\n"
@@ -257,7 +257,7 @@ namespace eval ::Corvus::test {
 
   test syrinx-1.0 {syrinx.tcl sourced returns ok} {
     source syrinx.tcl
-  } ok
+  } {}
 
   test syrinx-1.1 {Syrinx existence} {
     namespace exists Syrinx
