@@ -154,7 +154,7 @@ namespace eval Syrinx {
         Estrilda::signboard
       }
 
-      unset clefs climax gears songbirds
+      unset clefs climax
       return
     }
   } $argc $argv
