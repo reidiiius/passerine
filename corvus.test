@@ -255,15 +255,15 @@ namespace eval ::Corvus::test {
   puts "\n\t\t| Syrinx Test |\n"
   roost 1
 
-  test syrinx-1.0 {syrinx.tcl sourced returns ok} {
+  test syrinx-1.0 {
+    Syrinx existence
+  } -setup {
     source syrinx.tcl
-  } {}
-
-  test syrinx-1.1 {Syrinx existence} {
+  } -body {
     namespace exists Syrinx
-  } 1
-
-  namespace delete Syrinx
+  } -cleanup {
+    namespace delete Syrinx
+  } -result 1
 
   puts [string repeat " ~" 36]
 
