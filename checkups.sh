@@ -17,71 +17,79 @@ checkup () {
   fi
 }
 
-sleep 1
+if [ -n "$APPL" ] && [ -f "$APPL" ];
+then
 
-echo "\n Beginning Test\n"
+  sleep 1
 
-sleep 1
+  echo "\n Beginning Test\n"
 
-# correct tuning chosen so parse variant arguments
-# display all matrices formatted in chosen tuning
-tclsh "$APPL" fkbjdn NOP NOP flock
+  sleep 1
 
-checkup
+  # correct tuning chosen so parse variant arguments
+  # display all matrices formatted in chosen tuning
+  tclsh "$APPL" fkbjdn NOP NOP flock
 
-sleep 2
+  checkup
 
-# correct tuning chosen so parse variant arguments
-# display matrices of chosen tuning and keys
-tclsh "$APPL" beadgcf n0 k9 j3
+  sleep 2
 
-checkup
+  # correct tuning chosen so parse variant arguments
+  # display matrices of chosen tuning and keys
+  tclsh "$APPL" beadgcf n0 k9 j3
 
-sleep 2
+  checkup
 
-# maximum amount of input arguments
-tclsh "$APPL" cgdae $(ITR=1; MAX=86;
-  while test "$ITR" -lt "$MAX";
-  do printf "%s " "$ITR"; ITR=$(($ITR+1));
-  done)
+  sleep 2
 
-checkup
+  # maximum amount of input arguments
+  tclsh "$APPL" cgdae $(ITR=1; MAX=86;
+    while test "$ITR" -lt "$MAX";
+    do printf "%s " "$ITR"; ITR=$(($ITR+1));
+    done)
 
-sleep 2
+  checkup
 
-# limit quantity of characters for each argument
-WORD='abcdefghijklmnopqrstuvwxyz'
+  sleep 2
 
-tclsh "$APPL" cgdae "$WORD" "$WORD" "$WORD"
+  # limit quantity of characters for each argument
+  WORD='abcdefghijklmnopqrstuvwxyz'
 
-checkup
+  tclsh "$APPL" cgdae "$WORD" "$WORD" "$WORD"
 
-sleep 2
+  checkup
 
-# numerically search through keys
-tclsh "$APPL" 56
+  sleep 2
 
-checkup
+  # numerically search through keys
+  tclsh "$APPL" 56
 
-sleep 2
+  checkup
 
-# failure to establish instrument tuning
-# display help message with examples
-tclsh "$APPL" help
+  sleep 2
 
-checkup
+  # failure to establish instrument tuning
+  # display help message with examples
+  tclsh "$APPL" NOP NOP
 
-sleep 2
+  checkup
 
-# display menu of signatures
-tclsh "$APPL"
+  sleep 2
 
-checkup
+  # display menu of signatures
+  tclsh "$APPL"
 
-sleep 1
+  checkup
 
-echo "\n Finished Test\n"
-echo "\t[ Passed: $PASS, Failed: $FAIL ]\n"
+  sleep 1
+
+  echo "\n Finished Test\n"
+  echo "\t[ Passed: $PASS, Failed: $FAIL ]\n"
+
+else
+  echo "\n\tfile: $0, variable APPL value: '$APPL'\n"
+  exit 1
+fi
 
 exit 0
 

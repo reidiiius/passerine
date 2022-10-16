@@ -3,27 +3,40 @@
 # tyranni.tcl
 
 # remedial guardian sniffs for named capsules
-if {
-  ![namespace exist ::Estrilda] ||
-  ![namespace exist ::Ploceus ] ||
-  ![namespace exist ::Sturnus ] ||
-  ![namespace exist ::Syrinx  ]
-} then {
-  set perch grackle.tcl
+apply {{} {
+  if {
+    ![namespace exist ::Estrilda] ||
+    ![namespace exist ::Ploceus ] ||
+    ![namespace exist ::Sturnus ] ||
+    ![namespace exist ::Syrinx  ]
+  } then {
+    set perch grackle.tcl
 
-  if {[file exists $perch]} {
-    source $perch
-  } else {
-    puts stderr "$perch not found"
-    exit 1
+    if {[file exists $perch]} {
+      set func exordium
+      set repo {estrilda.tcl ploceus.tcl sturnus.tcl syrinx.tcl}
+
+      source $perch
+
+        if {[info procs exo*ium] eq "$func"} {
+          $func $repo
+        } else {
+          puts stderr "[info script]: $func not found"
+          exit 1
+        }
+
+      unset func repo
+    } else {
+      puts stderr "$perch not found"
+      exit 1
+    }
+
+    unset perch
   }
-  unset perch
-
-  exordium {estrilda.tcl ploceus.tcl sturnus.tcl syrinx.tcl}
-}
+}}
 
 # casework
-if {0} then {
+if { 0 } then {
 
 package require tcltest
 
