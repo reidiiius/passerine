@@ -13,12 +13,12 @@ proc exordium {} {
         } then {
           source $capsule
         } else {
-          set zulutime [clock format [clock seconds] \
+          set dateline [clock format [clock seconds] \
             -timezone UTC -format "%Y-%m-%dT%TZ"]
 
-          puts stderr "problem sourcing $capsule $zulutime"
+          puts stderr "problem sourcing $capsule $dateline"
 
-          unset zulutime
+          unset dateline
           exit 1
         }
       }
@@ -34,36 +34,9 @@ exordium
 namespace eval Syrinx {
 
   # iso-8601 zulu time
-  variable timeline
-  set timeline [clock format [clock seconds] \
+  variable dateline
+  set dateline [clock format [clock seconds] \
     -timezone UTC -format "%Y-%m-%dT%TZ"]
-
-  # initialization
-  apply { {dateline} {
-    if {[namespace exists ::Estrilda]} {
-      namespace import ::Estrilda::*
-
-    } else {
-      puts stderr "Estrilda absent! $dateline"
-      exit 1
-    }
-
-    if {[namespace exists ::Ploceus]} {
-      namespace import ::Ploceus::fingerboard
-
-    } else {
-      puts stderr "Ploceus absent! $dateline"
-      exit 1
-    }
-
-    if {[namespace exists ::Sturnus]} {
-      namespace import ::Sturnus::*
-
-    } else {
-      puts stderr "Sturnus absent! $dateline"
-      exit 1
-    }
-  }} $timeline
 
   # entryway
   apply { {carts argots}
@@ -159,6 +132,5 @@ namespace eval Syrinx {
     }
   } $argc $argv
 
-  unset timeline
 } ;# close Syrinx
 

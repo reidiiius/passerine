@@ -247,25 +247,27 @@ namespace eval ::Corvus::test {
     Sturnus::examples $Ploceus::machines
   } ok
 
-  namespace delete Sturnus
-  namespace delete Ploceus
-  namespace delete Estrilda
-
   roost 1
   puts "\n\t\t| Syrinx Test |\n"
   roost 1
 
-  test syrinx-1.0 {
-    Syrinx existence
-  } -setup {
+  test syrinx-1.0 {Syrinx sourced returns null} {
     source syrinx.tcl
-  } -body {
+  } {}
+
+  test syrinx-1.1 {Syrinx existence} {
     namespace exists Syrinx
-  } -cleanup {
-    namespace delete Syrinx
-  } -result 1
+  } 1
+
+  test syrinx-1.2 {Syrinx dateline is ascii} {
+    string is ascii -strict $Syrinx::dateline
+  } 1
 
   puts [string repeat " ~" 36]
+
+  foreach ns {Syrinx Sturnus Ploceus Estrilda} {
+    namespace delete $ns
+  }
 
   cleanupTests
 }
