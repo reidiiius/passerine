@@ -1,6 +1,7 @@
 #! /usr/bin/env sh
 
 APPL='syrinx.tcl'
+# APPL='tyranni.tcl'
 
 PASS=0
 FAIL=0

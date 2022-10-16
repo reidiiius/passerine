@@ -1,6 +1,7 @@
 #! /usr/bin/env tclsh
 
-# check targets to be sourced
+
+# attempts to acquire and evaluate named capsules
 proc exordium {} {
   set resources {estrilda.tcl ploceus.tcl sturnus.tcl}
 
@@ -29,7 +30,15 @@ proc exordium {} {
   return
 }
 
-exordium
+# remedial guardian sniffs for named capsules
+if {
+  ![namespace exist ::Estrilda] ||
+  ![namespace exist ::Ploceus ] ||
+  ![namespace exist ::Sturnus ]
+} then {
+  exordium
+}
+
 
 namespace eval Syrinx {
 
