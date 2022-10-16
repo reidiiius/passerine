@@ -1,5 +1,5 @@
 
-# kestrel.tcl
+# grackle.tcl
 
 # attempts to acquire and evaluate named capsules
 proc exordium {files} {
