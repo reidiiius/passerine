@@ -1,34 +1,6 @@
 #! /usr/bin/env tclsh
 
-
-# attempts to acquire and evaluate named capsules
-proc exordium {} {
-  set resources {estrilda.tcl ploceus.tcl sturnus.tcl}
-
-  lmap target $resources {
-    apply { {capsule}
-      {
-        if {
-          [file exists $capsule] &&
-          [file isfile $capsule]
-        } then {
-          source $capsule
-        } else {
-          set dateline [clock format [clock seconds] \
-            -timezone UTC -format "%Y-%m-%dT%TZ"]
-
-          puts stderr "problem sourcing $capsule $dateline"
-
-          unset dateline
-          exit 1
-        }
-      }
-    } $target
-  }
-
-  unset resources target
-  return
-}
+# syrinx.tcl
 
 # remedial guardian sniffs for named capsules
 if {
@@ -36,9 +8,18 @@ if {
   ![namespace exist ::Ploceus ] ||
   ![namespace exist ::Sturnus ]
 } then {
-  exordium
-}
+  set perch grackle.tcl
 
+  if {[file exists $perch]} {
+    source $perch
+  } else {
+    puts stderr "$perch not found"
+    exit 1
+  }
+  unset perch
+
+  exordium {estrilda.tcl ploceus.tcl sturnus.tcl}
+}
 
 namespace eval Syrinx {
 
