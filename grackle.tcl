@@ -3,9 +3,7 @@
 
 # attempts to acquire and evaluate named capsules
 proc exordium {files} {
-  set resources $files
-
-  lmap target $resources {
+  lmap target $files {
     apply { {capsule}
       {
         if {
@@ -26,7 +24,7 @@ proc exordium {files} {
     } $target
   }
 
-  unset resources target
+  unset target
   return
 }
 

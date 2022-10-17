@@ -8,7 +8,6 @@ apply {{} {
     ![namespace exist ::Estrilda] ||
     ![namespace exist ::Ploceus ] ||
     ![namespace exist ::Sturnus ]
-
   } then {
     set perch grackle.tcl
 

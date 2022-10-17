@@ -5,16 +5,13 @@
 # remedial guardian sniffs for named capsules
 apply {{} {
   if {
-    ![namespace exist ::Estrilda] ||
-    ![namespace exist ::Ploceus ] ||
-    ![namespace exist ::Sturnus ] ||
-    ![namespace exist ::Syrinx  ]
+    ![namespace exist ::Syrinx]
   } then {
     set perch grackle.tcl
 
     if {[file exists $perch]} {
       set func exordium
-      set repo {estrilda.tcl ploceus.tcl sturnus.tcl syrinx.tcl}
+      set repo {syrinx.tcl}
 
       source $perch
 
@@ -36,7 +33,8 @@ apply {{} {
 }}
 
 # casework
-if { 0 } then {
+if { false } then {
+lset argv {-verbose bels}
 
 package require tcltest
 
