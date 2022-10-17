@@ -3,34 +3,36 @@
 # tyranni.tcl
 
 # remedial guardian sniffs for named capsules
-apply {{} {
-  if {
-    ![namespace exist ::Syrinx]
-  } then {
-    set perch grackle.tcl
+apply {{files} {
+  for {set i 0} {$i < [llength $files]} {incr i} {
+    if {![namespace exists ::[string toupper [
+      file rootname [lindex $files $i]] 0 1]]
+    } then { 
+      set perch grackle.tcl
 
-    if {[file exists $perch]} {
-      set func exordium
-      set repo {syrinx.tcl}
+      if {[file exists $perch]} {
+        set func exordium
+        set repo $files
 
-      source $perch
+        source $perch
 
-        if {[info procs exo*ium] eq "$func"} {
-          $func $repo
-        } else {
-          puts stderr "[info script]: $func not found"
-          exit 1
-        }
+          if {[info procs exo*ium] eq "$func"} {
+            $func $repo
+          } else {
+            puts stderr "[info script]: $func not found"
+            exit 1
+          }
 
-      unset func repo
-    } else {
-      puts stderr "$perch not found"
-      exit 1
+        unset func repo
+      } else {
+        puts stderr "$perch not found"
+        exit 1
+      }
+
+      unset perch
     }
-
-    unset perch
   }
-}}
+}} {syrinx.tcl}
 
 # casework
 if { false } then {
