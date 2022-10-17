@@ -4,26 +4,25 @@
 
 # remedial guardian sniffs for named capsules
 apply {{files} {
-  for {set i 0} {$i < [llength $files]} {incr i} {
-    if {![namespace exists ::[string toupper [
-      file rootname [lindex $files $i]] 0 1]]
-    } then { 
+  foreach item $files {
+    set capsule [string toupper [file rootname $item] 0]
+
+    if {![namespace exists ::$capsule]} then {
       set perch grackle.tcl
 
       if {[file exists $perch]} {
         set func exordium
-        set repo $files
 
         source $perch
 
           if {[info procs exo*ium] eq "$func"} {
-            $func $repo
+            $func $files
           } else {
             puts stderr "[info script]: $func not found"
             exit 1
           }
 
-        unset func repo
+        unset func
       } else {
         puts stderr "$perch not found"
         exit 1
@@ -31,8 +30,11 @@ apply {{files} {
 
       unset perch
     }
+
+    unset capsule
   }
 }} {syrinx.tcl}
+
 
 # casework
 if { false } then {
