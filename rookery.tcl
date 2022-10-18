@@ -47,15 +47,15 @@ namespace eval Rookery {
     # append content
     set capsule $pathway
     set chandle [open $capsule a]
-    set charted 0
+    set letters 0
 
     puts $chandle "# \\"
     foreach betoken $swords {
       puts -nonewline $chandle "$betoken "
-      if {50 < [set charted [expr {$charted + [string length $betoken]}]]
+      if {50 < [set letters [expr {$letters + [string length $betoken]}]]
       } then {
         puts $chandle "\\"
-        set charted 0
+        set letters 0
       }
     }
     puts $chandle "\n"
@@ -144,7 +144,7 @@ namespace eval Rookery {
     puts "\tfilesize: ${estates(size)}\n"
 
     # cleanup
-    unset capsule chandle charted content estates folder
+    unset capsule chandle content estates folder letters
     unset pathway postdoc recline splines swords betoken
 }}
 
