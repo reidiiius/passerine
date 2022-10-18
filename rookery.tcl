@@ -1,4 +1,4 @@
-#! /usr/bin/tclsh
+#! /usr/bin/env tclsh
 
 namespace eval Rookery {
 
@@ -32,6 +32,33 @@ namespace eval Rookery {
     set capsule $pathway
     set chandle [open $capsule w]
     puts $chandle "#! /usr/bin/env tclsh\n"
+    flush $chandle
+    close $chandle
+
+    # slurpermit
+    set capsule LICENSE.txt
+    set chandle [open $capsule r]
+    set content [read $chandle]
+    close $chandle
+
+    # split content words to list
+    set swords [lrange [split [string map {"\n" { }} $content]] 5 end]
+ 
+    # append content
+    set capsule $pathway
+    set chandle [open $capsule a]
+    set charted 0
+
+    puts $chandle "# \\"
+    foreach betoken $swords {
+      puts -nonewline $chandle "$betoken "
+      if {50 < [set charted [expr {$charted + [string length $betoken]}]]
+      } then {
+        puts $chandle "\\"
+        set charted 0
+      }
+    }
+    puts $chandle "\n"
     flush $chandle
     close $chandle
 
@@ -85,8 +112,8 @@ namespace eval Rookery {
 
     foreach recline [lrange $splines 19 end] {
       puts $chandle $recline
-      flush $chandle
     }
+    flush $chandle
     close $chandle
 
     set capsule tyranni.tcl
@@ -103,8 +130,8 @@ namespace eval Rookery {
 
     foreach recline [lrange $splines 19 end] {
       puts $chandle $recline
-      flush $chandle
     }
+    flush $chandle
     close $chandle
 
     file attributes $pathway -permissions u+x
@@ -117,9 +144,9 @@ namespace eval Rookery {
     puts "\tfilesize: ${estates(size)}\n"
 
     # cleanup
-    unset capsule chandle content estates
-    unset folder pathway postdoc recline splines
-  }}
+    unset capsule chandle charted content estates folder
+    unset pathway postdoc recline splines swords betoken
+}}
 
 } ;# close Rookery
 
