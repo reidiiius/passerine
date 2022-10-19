@@ -41,9 +41,10 @@ namespace eval Rookery {
     set content [read $chandle]
     close $chandle
 
-    # split content words to list
-    set swords [lrange [split [string map {"\n" { }} $content]] 5 end]
- 
+    # replace substrings then split content words to list
+    set swords [lrange [split [
+      string map {"\n\n" "\x20"} $content]] 4 end-1]
+
     # append content
     set capsule $pathway
     set chandle [open $capsule a]
@@ -51,7 +52,7 @@ namespace eval Rookery {
 
     puts $chandle "# \\"
     foreach betoken $swords {
-      puts -nonewline $chandle "$betoken "
+      puts -nonewline $chandle [string cat $betoken "\x20"]
       if {50 < [set letters [expr {$letters + [string length $betoken]}]]
       } then {
         puts $chandle "\\"
