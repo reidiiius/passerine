@@ -15,6 +15,7 @@ apply {{files} {
   }
 
   unset perch
+  return
 }} {estrilda.tcl ploceus.tcl sturnus.tcl}
 
 
@@ -26,8 +27,7 @@ namespace eval Syrinx {
     -timezone UTC -format "%Y-%m-%dT%TZ"]
 
   # entryway
-  apply { {carts argots}
-    {
+  apply {{carts argots} {
       namespace upvar Estrilda oscines songbirds
       namespace upvar Ploceus machines gears
 
@@ -37,7 +37,7 @@ namespace eval Syrinx {
       # maximum amount of input arguments
       set climax [expr {[llength $clefs] + 1}]
 
-      if {$carts && $carts <= $climax} then {
+      if {$carts && ($carts <= $climax)} then {
         # maximum number of input characters
         set spandex 15
 
@@ -48,17 +48,17 @@ namespace eval Syrinx {
         set tuned [lindex $gears [lsearch -exact $gears [lindex $argots 0]]]
 
         # numerically search through keys
-        if {$carts eq 1 && [string match {*[0-9]*} [lindex $argots 0]]} {
+        if {($carts eq 1) && [string match {*[0-9]*} [lindex $argots 0]]} {
           set kinda [lindex $argots 0]
 
           Estrilda::research $clefs $kinda
 
           unset kinda
-        } elseif {$carts eq 1 || ![llength $tuned]} {
+        } elseif {($carts eq 1) || ![llength $tuned]} {
           # display help message with examples
           Sturnus::examples $gears
 
-        } elseif {$carts > 1 && [llength $tuned]} {
+        } elseif {($carts > 1) && [llength $tuned]} {
           # correct tuning chosen so parse variant arguments
           set harp [lindex $argots 0]
           set kids [lrange $argots 1 end]

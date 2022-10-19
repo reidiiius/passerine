@@ -8,6 +8,7 @@ namespace eval ::Corvus::test {
 
   proc roost {unit} {
     after [expr {int($unit * 1000)}]
+    return
   }
 
   roost 1
@@ -270,7 +271,7 @@ namespace eval ::Corvus::test {
   }
 
   cleanupTests
-}
+} ;# close Corvus::test
 
 namespace delete ::Corvus::test
 

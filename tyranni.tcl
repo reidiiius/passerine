@@ -15,21 +15,26 @@ apply {{files} {
   }
 
   unset perch
+  return
 }} {syrinx.tcl}
 
 
 # casework
 if { false } then {
-lset argv {-verbose bels}
+
+  if { $argc } then {
+    lset argv { -verbose bels -debug 2 }
+  }
 
 package require tcltest
 
-namespace eval ::Corvus::test {
+namespace eval ::Tyranni::test {
 
   namespace import ::tcltest::*
 
   proc roost {unit} {
     after [expr {int($unit * 1000)}]
+    return
   }
 
   roost 1
@@ -40,21 +45,19 @@ namespace eval ::Corvus::test {
     namespace exists ::Estrilda
   } 1
 
-  test estrilda-1.1 {place-holder} -constraints {emptyTest}
-
-  test estrilda-1.2 {qualid value} {
+  test estrilda-1.1 {qualid value} {
     string tolower $Estrilda::qualid
   } estrilda
 
-  test estrilda-1.3 {Estrilda::oscines existence} {
+  test estrilda-1.2 {Estrilda::oscines existence} {
     array exists Estrilda::oscines
   } 1
 
-  test estrilda-1.4 {Estrilda::oscines has 84 records} {
+  test estrilda-1.3 {Estrilda::oscines has 84 records} {
     array size Estrilda::oscines
   } 84
 
-  test estrilda-1.5 {crow value ascii} -setup {
+  test estrilda-1.4 {crow value ascii} -setup {
     set sign n0
     set crow $Estrilda::oscines($sign)
   } -body {
@@ -63,7 +66,7 @@ namespace eval ::Corvus::test {
     unset crow sign
   } -result 1
 
-  test estrilda-1.6 {crow string length} -setup {
+  test estrilda-1.5 {crow string length} -setup {
     set sign n0
     set crow $Estrilda::oscines($sign)
   } -body {
@@ -72,7 +75,7 @@ namespace eval ::Corvus::test {
     unset crow sign
   } -result 60
 
-  test estrilda-1.7 {crow value tuple} -setup {
+  test estrilda-1.6 {crow value tuple} -setup {
     set sign n0
     set crow $Estrilda::oscines($sign)
   } -body {
@@ -81,7 +84,7 @@ namespace eval ::Corvus::test {
     unset crow sign
   } -result 1
 
-  test estrilda-1.8 {crow list length} -setup {
+  test estrilda-1.7 {crow list length} -setup {
     set sign n0
     set crow $Estrilda::oscines($sign)
   } -body {
@@ -90,7 +93,7 @@ namespace eval ::Corvus::test {
     unset crow sign
   } -result 12
 
-  test estrilda-1.9 {crow consecutive underscores} -setup {
+  test estrilda-1.8 {crow consecutive underscores} -setup {
     set sign n0
     set crow $Estrilda::oscines($sign)
   } -body {
@@ -99,15 +102,15 @@ namespace eval ::Corvus::test {
     unset crow sign
   } -result 1
 
-  test estrilda-2.0 {signboard passed nothing} {
+  test estrilda-1.9 {signboard passed nothing} {
     Estrilda::signboard
   } {}
 
-  test estrilda-2.1 {signboard passed empty tuple} {
+  test estrilda-2.0 {signboard passed empty tuple} {
     Estrilda::signboard {}
   } {}
 
-  test estrilda-2.2 {signboard passed inhabited tuple} -setup {
+  test estrilda-2.1 {signboard passed inhabited tuple} -setup {
     set clefs [array names Estrilda::oscines]
   } -body {
     Estrilda::signboard $clefs
@@ -115,11 +118,11 @@ namespace eval ::Corvus::test {
     unset clefs
   } -result {}
 
-  test estrilda-2.3 {research passed empty tuple} {
+  test estrilda-2.2 {research passed empty tuple} {
     Estrilda::research {} 99
   } 1
 
-  test estrilda-2.4 {research matchless} -setup {
+  test estrilda-2.3 {research matchless} -setup {
     set clefs [array names Estrilda::oscines]
   } -body {
     Estrilda::research $clefs 99
@@ -127,7 +130,7 @@ namespace eval ::Corvus::test {
     unset clefs
   } -result {}
 
-  test estrilda-2.5 {research matches} -setup {
+  test estrilda-2.4 {research matches} -setup {
     set clefs [array names Estrilda::oscines]
     set sign k2j5
   } -body {
@@ -135,6 +138,8 @@ namespace eval ::Corvus::test {
   } -cleanup {
     unset clefs sign
   } -result {}
+
+  test estrilda-2.5 {place-holder} -constraints {emptyTest}
 
   roost 1
   puts "\n\t\t| Ploceus Test |\n"
@@ -144,51 +149,49 @@ namespace eval ::Corvus::test {
     namespace exists ::Ploceus
   } 1
 
-  test ploceus-1.1 {place-holder} -constraints {emptyTest}
-
-  test ploceus-1.2 {Ploceus::machines has 5 elements} {
+  test ploceus-1.1 {Ploceus::machines has 5 elements} {
     llength $Ploceus::machines
   } 5
 
-  test ploceus-1.3 {matallic is ascii} {
+  test ploceus-1.2 {matallic is ascii} {
     string is ascii -strict $Ploceus::metallic
   } 1
 
-  test ploceus-1.4 {matallic is boolean} {
+  test ploceus-1.3 {matallic is boolean} {
     string is boolean -strict $Ploceus::metallic
   } 1
 
-  test ploceus-1.5 {matallic is false} {
+  test ploceus-1.4 {matallic is false} {
     string is false -strict $Ploceus::metallic
   } 1
 
-  test ploceus-1.6 {sequence is digit} {
+  test ploceus-1.5 {sequence is digit} {
     string is digit -strict $Ploceus::sequence
   } 1
 
-  test ploceus-1.7 {sequence is number} {
+  test ploceus-1.6 {sequence is number} {
     expr {0 < $Ploceus::sequence}
   } 1
 
-  test ploceus-1.8 {tributes existence} {
+  test ploceus-1.7 {tributes existence} {
     array exists Ploceus::tributes
   } 1
 
-  test ploceus-1.9 {tributes has 4 records} {
+  test ploceus-1.8 {tributes has 4 records} {
     array size Ploceus::tributes
   } 4
 
-  test ploceus-2.0 {utensils existence} {
+  test ploceus-1.9 {utensils existence} {
     array exists Ploceus::utensils
   } 1
 
-  test ploceus-2.1 {utensils has 9 records} {
+  test ploceus-2.0 {utensils has 9 records} {
     array size Ploceus::utensils
   } 9
 
   puts ""
 
-  test ploceus-2.2 {fingerboard returns null} -setup {
+  test ploceus-2.1 {fingerboard returns null} -setup {
     set sign k2j6
     set crow $Estrilda::oscines($sign)
     set harp beadgcf
@@ -200,6 +203,8 @@ namespace eval ::Corvus::test {
 
   puts ""
 
+  test ploceus-2.2 {place-holder} -constraints {emptyTest}
+
   roost 1
   puts "\n\t\t| Sturnus Test |\n"
   roost 1
@@ -208,13 +213,11 @@ namespace eval ::Corvus::test {
     namespace exists ::Sturnus
   } 1
 
-  test sturnus-1.1 {place-holder} -constraints {emptyTest}
-
-  test sturnus-1.2 {governor passed empty tuple} {
+  test sturnus-1.1 {governor passed empty tuple} {
     llength [Sturnus::governor {}]
   } 0
 
-  test sturnus-1.3 {governor passed inhabited tuple} -setup {
+  test sturnus-1.2 {governor passed inhabited tuple} -setup {
     set clefs [array names Estrilda::oscines]
     set group [concat $clefs $clefs]
   } -body {
@@ -223,7 +226,7 @@ namespace eval ::Corvus::test {
     unset clefs group
   } -result 128 ;# default parameter value
 
-  test sturnus-1.4 {governor passed tuple and max value} -setup {
+  test sturnus-1.3 {governor passed tuple and max value} -setup {
     set clefs [array names Estrilda::oscines]
     set group [concat $clefs $clefs]
   } -body {
@@ -232,11 +235,11 @@ namespace eval ::Corvus::test {
     unset clefs group
   } -result [llength [array names Estrilda::oscines]]
 
-  test sturnus-1.5 {sentinel passed empty tuple} {
+  test sturnus-1.4 {sentinel passed empty tuple} {
     llength [Sturnus::sentinel {}]
   } 0
 
-  test sturnus-1.6 {sentinel passed inhabited tuple} -setup {
+  test sturnus-1.5 {sentinel passed inhabited tuple} -setup {
     set clefs [array names Estrilda::oscines]
     set group [lsort $clefs]
   } -body {
@@ -245,7 +248,7 @@ namespace eval ::Corvus::test {
     unset clefs group
   } -result 5
 
-  test sturnus-1.7 {sentinel passed tuple and max value} -setup {
+  test sturnus-1.6 {sentinel passed tuple and max value} -setup {
     set clefs [array names Estrilda::oscines]
     set group [lsort $clefs]
     set maxel 1
@@ -255,13 +258,15 @@ namespace eval ::Corvus::test {
     unset clefs group maxel
   } -result 2
 
-  test sturnus-1.8 {examples passed empty tuple} {
+  test sturnus-1.7 {examples passed empty tuple} {
     Sturnus::examples
   } ok
 
-  test sturnus-1.9 {examples passed inhabited tuple} {
+  test sturnus-1.8 {examples passed inhabited tuple} {
     Sturnus::examples $Ploceus::machines
   } ok
+
+  test sturnus-1.9 {place-holder} -constraints {emptyTest}
 
   roost 1
   puts "\n\t\t| Syrinx Test |\n"
@@ -271,11 +276,11 @@ namespace eval ::Corvus::test {
     namespace exists ::Syrinx
   } 1
 
-  test syrinx-1.1 {place-holder} -constraints {emptyTest}
-
-  test syrinx-1.2 {Syrinx dateline is ascii} {
+  test syrinx-1.1 {Syrinx dateline is ascii} {
     string is ascii -strict $Syrinx::dateline
   } 1
+
+  test syrinx-1.2 {place-holder} -constraints {emptyTest}
 
   puts [string repeat " ~" 36]
 
@@ -284,9 +289,9 @@ namespace eval ::Corvus::test {
   }
 
   cleanupTests
-}
+} ;# close Tyranni::test
 
-namespace delete ::Corvus::test
+namespace delete ::Tyranni::test
 
 } ;# casework
 

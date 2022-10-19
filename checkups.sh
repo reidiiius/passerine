@@ -15,6 +15,7 @@ checkup () {
     FAIL=$(($FAIL+1))
     echo "\n[ Failed: $FAIL ]\n"
   fi
+  return
 }
 
 if [ -n "$APPL" ] && [ -f "$APPL" ];

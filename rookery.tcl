@@ -146,7 +146,8 @@ namespace eval Rookery {
     # cleanup
     unset capsule chandle content estates folder letters
     unset pathway postdoc recline splines swords betoken
-}}
+    return
+  }}
 
 } ;# close Rookery
 
