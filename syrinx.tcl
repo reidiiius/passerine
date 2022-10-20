@@ -37,6 +37,71 @@ namespace eval Syrinx {
       # maximum amount of input arguments
       set climax [expr {[llength $clefs] + 1}]
 
+      # alphabetic search through values
+      proc correlate {kinda} {
+        set pairs $Ploceus::transits
+        set clade {}
+
+        foreach {sign cord} [array get Estrilda::oscines] {
+          if {$Ploceus::metallic} {
+            set yarn $cord
+          } else {
+            set yarn [string map $pairs $cord]
+          }
+
+          if {[string match *$kinda* $yarn]} {
+            lappend clade $sign
+          }
+        }
+
+        if {[llength $clade]} {
+          Estrilda::signboard $clade
+        } else {
+          puts "\n\tNothing similar to $kinda\n"
+        }
+
+        unset clade cord kinda pairs sign yarn
+        return
+      }
+
+      # display all matrices formatted in chosen tuning
+      proc compendia {harp clefs} {
+        set crow [string repeat "____ " 12]
+
+        puts ""
+        foreach sign $clefs {
+          set crow $Estrilda::oscines($sign)
+
+          Ploceus::fingerboard $sign $crow $harp
+
+          puts ""
+        }
+
+        unset crow sign
+        return
+      }
+
+      # display matrices of chosen tuning and keys
+      proc products {harp kids} {
+        set crow [string repeat "____ " 12]
+
+        puts ""
+        foreach sign $kids {
+          if {[info exists Estrilda::oscines($sign)]} {
+            set crow $Estrilda::oscines($sign)
+
+            Ploceus::fingerboard $sign $crow $harp
+
+          } else {
+            puts stderr "\t$sign ?"
+          }
+          puts ""
+        }
+
+        unset crow harp sign kids
+        return
+      }
+
       if {$carts && ($carts <= $climax)} then {
         # maximum number of input characters
         set spandex 15
@@ -55,34 +120,13 @@ namespace eval Syrinx {
 
           unset kinda
         } elseif {($carts eq 1) &&
-          ([string length [lindex $argots 0]] < 5) &&
-          ![string equal help [lindex $argots 0]] &&
-          [string match {*[A-z]*} [lindex $argots 0]]
+          [string match {*[A-z]*} [lindex $argots 0]] &&
+         ![string length [lsearch -exact -inline $gears [lindex $argots 0]]] &&
+         ![string equal help [lindex $argots 0]]
           } then {
-          set kinda [lindex $argots 0]
-          set pairs $Ploceus::transits
-          set clade {}
-
           # alphabetic search through values
-          foreach {sign cord} [array get songbirds] {
-            if {$Ploceus::metallic} {
-              set yarn $cord
-            } else {
-              set yarn [string map $pairs $cord]
-            }
+          correlate [lindex $argots 0]
 
-            if {[string match *$kinda* $yarn]} {
-              lappend clade $sign
-            }
-          }
-
-          if {[llength $clade]} {
-            Estrilda::signboard $clade
-          } else {
-            puts "\n\tNothing similar to $kinda\n"
-          }
-
-          unset clade cord kinda pairs sign yarn
         } elseif {($carts eq 1) || ![llength $tuned]} {
           # display help message with examples
           Sturnus::examples $gears
@@ -92,22 +136,11 @@ namespace eval Syrinx {
           set harp [lindex $argots 0]
           set kids [lrange $argots 1 end]
 
-          if {[llength [lsearch -inline -exact $kids "flock"]]} {
+          if {[string length [lsearch -exact -inline $kids "flock"]]} {
             # display all matrices formatted in chosen tuning
-
             if {[array size songbirds]} {
-              set crow [string repeat "____ " 12]
+              compendia $harp $clefs
 
-              puts ""
-              foreach sign $clefs {
-                set crow $songbirds($sign)
-
-                Ploceus::fingerboard $sign $crow $harp
-
-                puts ""
-              }
-
-              unset crow sign
             } else {
               puts stderr "songbirds is empty"
               exit 1
@@ -118,22 +151,9 @@ namespace eval Syrinx {
             exit 0
           } else {
             # display matrices of chosen tuning and keys
-            set crow [string repeat "____ " 12]
+            products $harp $kids
 
-            puts ""
-            foreach sign $kids {
-              if {[info exists songbirds($sign)]} {
-                set crow $songbirds($sign)
-
-                Ploceus::fingerboard $sign $crow $harp
-
-              } else {
-                puts stderr "\t$sign ?"
-              }
-              puts ""
-            }
-
-            unset crow harp sign kids
+            unset harp kids
           }
         }
 

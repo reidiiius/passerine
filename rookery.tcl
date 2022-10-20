@@ -111,7 +111,7 @@ namespace eval Rookery {
     set capsule $pathway
     set chandle [open $capsule a]
 
-    foreach recline [lrange $splines 19 end] {
+    foreach recline [lrange $splines 20 end] {
       puts $chandle $recline
     }
     flush $chandle
@@ -129,7 +129,7 @@ namespace eval Rookery {
     set capsule $pathway
     set chandle [open $capsule a]
 
-    foreach recline [lrange $splines 19 end] {
+    foreach recline [lrange $splines 20 end] {
       puts $chandle $recline
     }
     flush $chandle
