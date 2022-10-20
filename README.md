@@ -26,9 +26,13 @@ Tcl8.6.10
 
     tclsh syrinx.tcl eadgbe n0 j3
 
-search example
+search examples
 
     tclsh syrinx.tcl 56
+
+:
+
+    tclsh syrinx.tcl yq
 
 screenful view
 

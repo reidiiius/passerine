@@ -54,6 +54,35 @@ namespace eval Syrinx {
           Estrilda::research $clefs $kinda
 
           unset kinda
+        } elseif {($carts eq 1) &&
+          ([string length [lindex $argots 0]] < 5) &&
+          ![string equal help [lindex $argots 0]] &&
+          [string match {*[A-z]*} [lindex $argots 0]]
+          } then {
+          set kinda [lindex $argots 0]
+          set pairs $Ploceus::transits
+          set clade {}
+
+          # alphabetic search through values
+          foreach {sign cord} [array get songbirds] {
+            if {$Ploceus::metallic} {
+              set yarn $cord
+            } else {
+              set yarn [string map $pairs $cord]
+            }
+
+            if {[string match *$kinda* $yarn]} {
+              lappend clade $sign
+            }
+          }
+
+          if {[llength $clade]} {
+            Estrilda::signboard $clade
+          } else {
+            puts "\n\tNothing similar to $kinda\n"
+          }
+
+          unset clade cord kinda pairs sign yarn
         } elseif {($carts eq 1) || ![llength $tuned]} {
           # display help message with examples
           Sturnus::examples $gears

@@ -6,6 +6,7 @@ namespace eval Ploceus {
   variable machines
   variable metallic
   variable sequence
+  variable transits
   variable tributes
   variable utensils
 
@@ -17,6 +18,11 @@ namespace eval Ploceus {
 
   # current time as integer
   set sequence [clock milliseconds]
+
+  # substring replacement mapping pairs
+  set transits {
+    __ _ Ag s Au u Cu r Fe q Hg v Mn p Np y Pb w Pu z Sn t Ti o Ur x
+  }
 
   # stack state buffers
   array set tributes {
@@ -54,14 +60,12 @@ namespace eval Ploceus {
 
   proc headstock {pitch} {
     variable metallic
+    variable transits
 
     if {$metallic} {
       set yarn [concord $pitch]
     } else {
-      set trans {
-        __ _ Ag s Au u Cu r Fe q Hg v Mn p Np y Pb w Pu z Sn t Ti o Ur x
-      }
-      set yarn [string map $trans [concord $pitch]]
+      set yarn [string map $transits [concord $pitch]]
     }
 
     return $yarn

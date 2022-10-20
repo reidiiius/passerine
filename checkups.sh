@@ -69,6 +69,20 @@ then
 
   sleep 2
 
+  # alphabetic search through values
+  tclsh "$APPL" uv
+
+  checkup
+
+  sleep 2
+
+  # Ploceus::matallic true
+  tclsh "$APPL" AuHg
+
+  checkup
+
+  sleep 2
+
   # failure to establish instrument tuning
   # display help message with examples
   tclsh "$APPL" NOP NOP

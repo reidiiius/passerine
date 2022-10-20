@@ -162,16 +162,20 @@ namespace eval ::Tyranni::test {
   } 1
 
   test ploceus-1.4 {matallic is false} {
-    string is false -strict $Ploceus::metallic
+    string is digit -strict $Ploceus::sequence
   } 1
 
   test ploceus-1.5 {sequence is digit} {
-    string is digit -strict $Ploceus::sequence
+    string is double -strict $Ploceus::sequence
   } 1
 
   test ploceus-1.6 {sequence is number} {
     expr {0 < $Ploceus::sequence}
   } 1
+
+  test ploceus-1.65 {transits has 13 pairs} {
+    expr {[llength $Ploceus::transits] / 2}
+  } 13
 
   test ploceus-1.7 {tributes existence} {
     array exists Ploceus::tributes
