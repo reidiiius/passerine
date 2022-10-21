@@ -23,10 +23,13 @@ namespace eval Syrinx {
 
   namespace export *
 
-  # iso-8601 zulu time
-  variable dateline
-  set dateline [clock format [clock seconds] \
-    -timezone UTC -format "%Y-%m-%dT%TZ"]
+  # iso-8601 timestamp
+  proc dateline {} {
+    set meantime [clock format [clock seconds] \
+      -timezone UTC -format "%Y-%m-%dT%TZ"]
+
+    return $meantime
+  }
 
   # display matrices of chosen tuning and keys
   proc compendia {harp kids} {
@@ -50,14 +53,16 @@ namespace eval Syrinx {
   }
 
   # entryway
-  proc atrium {{cargos 0} {argots {}}} {
+  proc atrium {{argots {}}} {
+    set amount [llength $argots]
+
     # vessel to hold key signature names
     set clefs [lsort -ascii [array names ::Estrilda::oscines]]
 
     # maximum amount of input arguments
     set climax [expr {[llength $clefs] + 1}]
 
-    if {$cargos && ($cargos <= $climax)} then {
+    if {$amount && ($amount <= $climax)} then {
       # maximum number of input characters
       set spandex 15
 
@@ -69,13 +74,13 @@ namespace eval Syrinx {
         lsearch -exact $::Ploceus::machines [lindex $argots 0]]]
 
       # numerically search through keys
-      if {($cargos eq 1) && [string match {*[0-9]*} [lindex $argots 0]]} {
+      if {($amount eq 1) && [string match {*[0-9]*} [lindex $argots 0]]} {
         set kinda [lindex $argots 0]
 
         ::Estrilda::research $clefs $kinda
 
         unset kinda
-      } elseif {($cargos eq 1) &&
+      } elseif {($amount eq 1) &&
         [string match {*[A-z]*} [lindex $argots 0]] &&
        ![string length [
          lsearch -exact -inline $::Ploceus::machines [lindex $argots 0]]] &&
@@ -84,11 +89,11 @@ namespace eval Syrinx {
         # alphabetic search through values
         ::Estrilda::correlate [lindex $argots 0] $::Ploceus::metallic
 
-      } elseif {($cargos eq 1) || ![llength $tuned]} {
+      } elseif {($amount eq 1) || ![llength $tuned]} {
         # display help message with examples
         ::Sturnus::examples $::Ploceus::machines 
 
-      } elseif {($cargos > 1) && [llength $tuned]} {
+      } elseif {($amount > 1) && [llength $tuned]} {
         # correct tuning chosen so parse variant arguments
         set harp [lindex $argots 0]
         set kids [lrange $argots 1 end]
@@ -103,7 +108,7 @@ namespace eval Syrinx {
             exit 1
           }
 
-          unset argots cargos clefs climax
+          unset argots amount clefs climax
           unset harp kids spandex tuned
           exit 0
         } else {
@@ -114,7 +119,7 @@ namespace eval Syrinx {
         }
       }
 
-      unset argots cargos spandex tuned
+      unset amount argots spandex tuned
     } else {
       # display menu of signatures
       ::Estrilda::signboard
@@ -124,7 +129,7 @@ namespace eval Syrinx {
     return
   } ;# atrium
 
-  atrium $argc $argv
+  atrium $argv
 
 } ;# close Syrinx
 

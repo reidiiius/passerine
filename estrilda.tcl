@@ -4,31 +4,31 @@ namespace eval Estrilda {
   namespace export *
 
   variable oscines
-  variable qualid
+  variable surname
 
   # initialization
   array set oscines {}
   set oscines(z0) [string repeat "____ " 12]
 
   # name of current namespace
-  set qualid [namespace tail [namespace current]]
+  set surname [namespace tail [namespace current]]
 
   proc signboard {{clefs {}}} {
     if {[llength $clefs]} {
       set signs [lsort $clefs]
     } else {
       variable oscines
-      variable qualid
+      variable surname
 
       if {[array exists oscines]} {
         if {[array size oscines]} {
           set signs [lsort [array names oscines]]
         } else {
-          puts stderr "${qualid}::oscines is empty"
+          puts stderr "${surname}::oscines is empty"
           exit 1
         }
       } else {
-        puts stderr "${qualid}::oscines not found"
+        puts stderr "${surname}::oscines not found"
         exit 1
       }
     }
@@ -57,9 +57,9 @@ namespace eval Estrilda {
 
       unset egg
     } else {
-      variable qualid
+      variable surname
 
-      puts stderr "${qualid}::research passed an empty tuple"
+      puts stderr "${surname}::research passed an empty tuple"
 
       unset clutch
       return 1

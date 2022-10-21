@@ -96,6 +96,30 @@ Tcl interactive
 
 :
 
+    source syrinx.tcl
+
+:
+
+    Syrinx::dateline
+
+:
+
+    Syrinx::compendia cgdae {n0 k6}
+
+:
+
+    Syrinx::atrium {cgdae j3 j6 j2 j23}
+
+:
+
+    Syrinx::atrium
+
+:
+
+    puts $Ploceus::machines
+
+:
+
     exit
 
 ---

@@ -45,8 +45,8 @@ namespace eval ::Tyranni::test {
     namespace exists ::Estrilda
   } 1
 
-  test estrilda-1.1 {qualid value} {
-    string tolower $Estrilda::qualid
+  test estrilda-1.1 {surname value} {
+    string tolower $Estrilda::surname
   } estrilda
 
   test estrilda-1.2 {Estrilda::oscines existence} {
@@ -280,16 +280,37 @@ namespace eval ::Tyranni::test {
     namespace exists ::Syrinx
   } 1
 
-  test syrinx-1.1 {Syrinx dateline is ascii} {
-    string is ascii -strict $Syrinx::dateline
+  test syrinx-1.1 {Syrinx dateline returns iso-8601 timestamp} {
+    regexp {^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$} [Syrinx::dateline]
   } 1
 
-  test syrinx-1.2 {place-holder} -constraints {emptyTest}
+  test syrinx-1.2 {Syrinx compendia returns null} -setup {
+    set harp beadgcf
+    set kids {n0 k9 k6}
+  } -body {
+    Syrinx::compendia $harp $kids
+  } -cleanup {
+    unset harp kids
+  } -result {}
+
+  test syrinx-1.3 {Syrinx atrium passed nothing returns null} {
+    Syrinx::atrium
+  } {}
+
+  test syrinx-1.4 {Syrinx atrium passed tuple returns null} -setup {
+    set argots {beadgcf j3 j9 j6}
+  } -body {
+    Syrinx::atrium $argots
+  } -cleanup {
+    unset argots
+  } -result {}
+
+  test syrinx-1.5 {place-holder} -constraints {emptyTest}
 
   puts [string repeat " ~" 36]
 
-  foreach ns {::Syrinx ::Sturnus ::Ploceus ::Estrilda} {
-    namespace delete $ns
+  foreach moniker {::Syrinx ::Sturnus ::Ploceus ::Estrilda} {
+    namespace delete $moniker
   }
 
   cleanupTests

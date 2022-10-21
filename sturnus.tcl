@@ -31,9 +31,16 @@ namespace eval Sturnus {
   }
 
   # display help message with examples
-  proc examples {{gears {cgdae eadgbe}}} {
+  proc examples {{gears {beadgcf cgdae eadgbe}}} {
+    global tcl_interactive
+
+    if {$tcl_interactive} then {
+      set mnemo syrinx.tcl
+    } else {
+      set mnemo [file tail [info script]]
+    }
+
     set demos "\nTunings:\n\t%s\n\nExample:\n\ttclsh %s %s n0 j3\n"
-    set mnemo [file tail [info script]]
 
     puts [format $demos $gears $mnemo [lindex $gears 0]]
 
