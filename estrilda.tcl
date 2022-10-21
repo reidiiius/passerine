@@ -1,7 +1,7 @@
 
 namespace eval Estrilda {
 
-  namespace export signboard research
+  namespace export *
 
   variable oscines
   variable qualid
@@ -46,7 +46,7 @@ namespace eval Estrilda {
     return
   }
 
-  # search through keys
+  # numerically search through keys
   proc research {clefs kinda} {
     set clutch [list ]
 
@@ -78,6 +78,35 @@ namespace eval Estrilda {
     }
 
     unset clutch
+    return
+  }
+
+  # alphabetic search through values
+  proc correlate {kinda {boole false}} {
+    variable oscines
+    set yarn [string repeat "____ " 12]
+    set pairs $::Ploceus::transits
+    set clade {}
+
+    foreach {sign cord} [array get oscines] {
+      if {$boole} {
+        set yarn $cord
+      } else {
+        set yarn [string map $pairs $cord]
+      }
+
+      if {[string match *$kinda* $yarn]} {
+        lappend clade $sign
+      }
+    }
+
+    if {[llength $clade]} {
+      signboard $clade
+    } else {
+      puts "\n\tNothing similar to $kinda\n"
+    }
+
+    unset clade pairs yarn
     return
   }
 

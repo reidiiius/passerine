@@ -80,6 +80,14 @@ Tcl interactive
 
 :
 
+    Estrilda::correlate wt 0
+
+:
+
+    Estrilda::correlate PbSn 1
+
+:
+
     set sign j23k6; set crow $Estrilda::oscines($sign)
 
 :
