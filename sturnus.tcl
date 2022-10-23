@@ -35,7 +35,7 @@ namespace eval Sturnus {
     global tcl_interactive
 
     if {$tcl_interactive} then {
-      set mnemo syrinx.tcl
+      set mnemo filename
     } else {
       set mnemo [file tail [info script]]
     }

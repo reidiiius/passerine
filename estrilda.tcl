@@ -5,6 +5,7 @@ namespace eval Estrilda {
 
   variable oscines
   variable surname
+  variable transits
 
   # initialization
   array set oscines {}
@@ -12,6 +13,11 @@ namespace eval Estrilda {
 
   # name of current namespace
   set surname [namespace tail [namespace current]]
+
+  # substring replacement mapping pairs
+  set transits {
+    __ _ Ag s Au u Cu r Fe q Hg v Mn p Np y Pb w Pu z Sn t Ti o Ur x
+  }
 
   proc signboard {{clefs {}}} {
     if {[llength $clefs]} {
@@ -83,9 +89,11 @@ namespace eval Estrilda {
 
   # alphabetic search through values
   proc correlate {kinda {boole false}} {
+    variable transits
     variable oscines
+
     set yarn [string repeat "____ " 12]
-    set pairs $::Ploceus::transits
+    set pairs $transits
     set clade {}
 
     foreach {sign cord} [array get oscines] {

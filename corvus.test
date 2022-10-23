@@ -27,6 +27,10 @@ namespace eval ::Corvus::test {
     string tolower $Estrilda::surname
   } estrilda
 
+  test estrilda-1.25 {transits has 13 pairs} {
+    expr {[llength $Estrilda::transits] / 2}
+  } 13
+
   test estrilda-1.3 {Estrilda::oscines existence} {
     array exists Estrilda::oscines
   } 1
@@ -152,10 +156,6 @@ namespace eval ::Corvus::test {
   test ploceus-1.7 {sequence is number} {
     expr {0 < $Ploceus::sequence}
   } 1
-
-  test ploceus-1.75 {transits has 13 pairs} {
-    expr {[llength $Ploceus::transits] / 2}
-  } 13
 
   test ploceus-1.8 {tributes existence} {
     array exists Ploceus::tributes

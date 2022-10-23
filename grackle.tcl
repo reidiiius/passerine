@@ -9,12 +9,12 @@ proc exordium {capsule} {
   } then {
     source $capsule
   } else {
-    set dateline [clock format [clock seconds] \
+    set meantime [clock format [clock seconds] \
       -timezone UTC -format "%Y-%m-%dT%TZ"]
 
-    puts stderr "problem sourcing $capsule $dateline"
+    puts stderr "problem sourcing $capsule $meantime"
 
-    unset dateline
+    unset meantime
     exit 1
   }
 

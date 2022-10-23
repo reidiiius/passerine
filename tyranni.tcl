@@ -23,7 +23,7 @@ apply {{files} {
 if { false } then {
 
   if { $argc } then {
-    lset argv { -verbose bels -debug 2 }
+    lset argv { -verbose bels -debug 1 }
   }
 
 package require tcltest
@@ -48,6 +48,10 @@ namespace eval ::Tyranni::test {
   test estrilda-1.1 {surname value} {
     string tolower $Estrilda::surname
   } estrilda
+
+  test estrilda-1.15 {transits has 13 pairs} {
+    expr {[llength $Estrilda::transits] / 2}
+  } 13
 
   test estrilda-1.2 {Estrilda::oscines existence} {
     array exists Estrilda::oscines
@@ -172,10 +176,6 @@ namespace eval ::Tyranni::test {
   test ploceus-1.6 {sequence is number} {
     expr {0 < $Ploceus::sequence}
   } 1
-
-  test ploceus-1.65 {transits has 13 pairs} {
-    expr {[llength $Ploceus::transits] / 2}
-  } 13
 
   test ploceus-1.7 {tributes existence} {
     array exists Ploceus::tributes
