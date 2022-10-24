@@ -4,7 +4,7 @@ namespace eval Sturnus {
   namespace export *
 
   # limit quantity of standard input characters
-  proc sentinel {argots {caps 24}} {
+  proc sentinel {{argots {}} {caps 24}} {
     set narc [llength $argots]
     set item 0
 
@@ -22,7 +22,7 @@ namespace eval Sturnus {
   }
 
   # limit input arguments to be processed
-  proc governor {argots {caps 128}} {
+  proc governor {{argots {}} {caps 128}} {
     if {[llength $argots] > $caps} {
       set argots [lrange $argots 0 [expr {$caps - 1}]]
     }

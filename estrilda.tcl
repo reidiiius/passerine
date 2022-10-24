@@ -53,7 +53,7 @@ namespace eval Estrilda {
   }
 
   # numerically search through keys
-  proc research {clefs kinda} {
+  proc research {{clefs {}} {kinda ''}} {
     set clutch [list ]
 
     if {[llength $clefs]} {
@@ -88,7 +88,7 @@ namespace eval Estrilda {
   }
 
   # alphabetic search through values
-  proc correlate {kinda {boole false}} {
+  proc correlate {{kinda ''} {boole false}} {
     variable transits
     variable oscines
 

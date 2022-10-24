@@ -10,7 +10,7 @@ namespace eval Ploceus {
   variable utensils
 
   # instrument tunings
-  set machines [list beadgcf bfbfb cgdae eadgbe fkbjdn]
+  set machines {beadgcf bfbfb cgdae eadgbe fkbjdn}
 
   # configure digraphs
   set metallic false
@@ -20,9 +20,9 @@ namespace eval Ploceus {
 
   # stack state buffers
   array set tributes {
-    sign {}
-    crow {}
-    harp {}
+    sign ""
+    crow ""
+    harp ""
     pegs {}
   }
 
@@ -39,7 +39,7 @@ namespace eval Ploceus {
     Fk 30
   }
 
-  proc concord {pitch} {
+  proc concord {{pitch Cn}} {
     variable utensils
     variable tributes
 
@@ -52,7 +52,7 @@ namespace eval Ploceus {
     return $wire
   }
 
-  proc headstock {pitch} {
+  proc headstock {{pitch Cn}} {
     variable metallic
 
     if {$metallic} {
@@ -83,8 +83,8 @@ namespace eval Ploceus {
     return
   }
 
-  # from input sets values for layout
-  proc fingerboard {sign crow harp} {
+  # setter for tributes then calls layout
+  proc fingerboard {{sign ""} {crow ""} {harp ""}} {
     set clef [string length $sign]
     set cols [string length $crow]
     set lute [string length $harp]
@@ -103,9 +103,9 @@ namespace eval Ploceus {
     unset clef cols lute
 
     variable tributes
-    lset tributes(sign) $sign
-    lset tributes(crow) $crow
-    lset tributes(harp) $harp
+    set tributes(sign) $sign
+    set tributes(crow) $crow
+    set tributes(harp) $harp
 
     switch $harp {
       beadgcf {
