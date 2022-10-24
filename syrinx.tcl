@@ -21,7 +21,7 @@ apply {{files} {
 
 namespace eval Syrinx {
 
-  namespace export *
+  namespace export atrium
 
   # iso-8601 timestamp
   proc dateline {} {
@@ -32,23 +32,27 @@ namespace eval Syrinx {
   }
 
   # display matrices of chosen tuning and keys
-  proc compendia {harp kids} {
-    set crow [string repeat "____ " 12]
+  proc compendia {{harp ""} {kids {}}} {
+    if [llength $kids] then {
+      set crow [string repeat "____ " 12]
 
-    puts ""
-    foreach sign $kids {
-      if {[info exists ::Estrilda::oscines($sign)]} {
-        set crow $::Estrilda::oscines($sign)
-
-        ::Ploceus::fingerboard $sign $crow $harp
-
-      } else {
-        puts stderr "\t$sign ?"
-      }
       puts ""
+      foreach sign $kids {
+        if {[info exists ::Estrilda::oscines($sign)]} {
+          set crow $::Estrilda::oscines($sign)
+
+          ::Ploceus::fingerboard $sign $crow $harp
+
+        } else {
+          puts stderr "\t$sign ?"
+        }
+        puts ""
+      }
+
+      unset crow sign
     }
 
-    unset crow harp sign kids
+    unset harp kids
     return
   }
 
