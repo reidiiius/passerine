@@ -50,9 +50,9 @@ Estrilda::oscines holds an array of key-value pairs.
 
     parray Estrilda::oscines
 
-Retrieve keys signs and store them in a list.
+Retrieve keys signs and store them in a sorted list.
 
-    set clefs [array names Estrilda::oscines]
+    set clefs [lsort [array names Estrilda::oscines]]
 
 Estrilda::signboard takes a list argument  
 and prints the contents formatted to screen.
