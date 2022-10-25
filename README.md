@@ -10,35 +10,36 @@ Ornithography
 ---
 
 ### Usage
-command-line
+Command-line interface
 
     cd passerine/
 
-Tcl8.6.10
+Print formatted menu of key signs.
 
     tclsh syrinx.tcl
 
-:
+Print available tunings with example.
 
     tclsh syrinx.tcl help
 
-:
+First argument denotes instrument tuning,  
+consecutive arguments portray key signs.
 
     tclsh syrinx.tcl eadgbe n0 j3
 
-search examples
+Numerical search through keys.
 
     tclsh syrinx.tcl 56
 
-:
+Alphabetic search through values.
 
     tclsh syrinx.tcl yq
 
-screenful view
+Print all and pipe through terminal pager.
 
     tclsh syrinx.tcl eadgbe flock | sensible-pager
 
-Tcl interactive
+Tcl interactive session
 
     tclsh
 
@@ -79,19 +80,32 @@ Retrieve the string value of selected key sign.
 
     set harminor $Estrilda::oscines(j36)
 
+Estrilda::transits is a list of substring pairs.
+
+    set pairs $Estrilda::transits
+
+Replace substrings in harminor based on pairs.
+
+    string map $pairs $harminor
+
 Evaluate contents of ploceus.tcl as a script.
 
     source ploceus.tcl
 
 Ploceus::machines holds a list of tunings.
 
-    puts $Ploceus::machines
+    foreach tuned $Ploceus::machines {puts $tuned}
 
 Assignment composition of key and tuning.
 
     set sign n0; set harp eadgbe
 
-Retrieve the string value of selected key sign.
+Ploceus::sequence holds the current time as an integer  
+which represents seconds milliseconds or microseconds.
+
+    set Ploceus::sequence [clock milliseconds]
+
+Retrieve and store string value of selected key sign.
 
     set crow $Estrilda::oscines($sign)
 
@@ -110,6 +124,32 @@ This switch facilitates symbolic transition.
 
     Ploceus::fingerboard $sign $crow $harp
 
+Ploceus::tributes holds state set by fingerboard call.
+
+    parray Ploceus::tributes
+
+Ploceus::utensils stores mapping of pitch to numeric indices  
+used by string range tunings held in Ploceus::tributes(pegs)
+
+    parray Ploceus::utensils
+
+Ploceus::headstock takes an argument which represents pitch  
+and returns an altered string from Ploceus::tributes(crow)
+
+    Ploceus::headstock En
+
+Toggle betwixt cloaks by flipping Ploceus::metallic boolean.
+
+    set Ploceus::metallic false
+
+Ploceus::concord provides the ability of transposition.
+
+    set crow [Ploceus::concord Bj]
+
+Call fingerboard to updated state and print to screen.
+
+    Ploceus::fingerboard $sign $crow $harp
+
 Evaluate contents of syrinx.tcl as a script.
 
     source syrinx.tcl
@@ -125,7 +165,7 @@ Taking a list argument of which the 1st
 item is the selected instrument tuning  
 and the remaining items are key signs.
 
-    Syrinx::atrium {cgdae j3 j6 j2 j23}
+    Syrinx::atrium {beadgcf n0 k6 j3 j6 j2}
 
 Syrinx::atrium with no arguments prints  
 a formatted menu of keys signs to screen.
