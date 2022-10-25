@@ -54,19 +54,19 @@ Retrieve keys signs and store them in a list.
 
     set clefs [array names Estrilda::oscines]
 
-Estrilda::signboard takes a list argument
+Estrilda::signboard takes a list argument  
 and prints the contents formatted to screen.
 
     Estrilda::signboard $clefs
 
-Estrilda::research takes two arguments;
-The first is a list to be searched through
+Estrilda::research takes two arguments;  
+The first is a list to be searched through  
 and the second is a pattern to search for.
 
     Estrilda::research $clefs {j?k*[xy]}
 
-Estrilda::correlate takes two arguments;
-The first is a pattern to search for
+Estrilda::correlate takes two arguments;  
+The first is a pattern to search for  
 and the second is a boolean switch.
 
     Estrilda::correlate HgAu true
@@ -95,9 +95,9 @@ Retrieve the string value of selected key sign.
 
     set crow $Estrilda::oscines($sign)
 
-Ploceus::fingerboard takes three arguments;
-The first is the sign denoting accidentals,
-the second is the string value retrieved,
+Ploceus::fingerboard takes three arguments;  
+The first is the sign denoting accidentals,  
+the second is the string value retrieved,  
 and the third is the selected tuning.
 
     Ploceus::fingerboard $sign $crow $harp
@@ -114,20 +114,20 @@ Evaluate contents of syrinx.tcl as a script.
 
     source syrinx.tcl
 
-Syrinx::compendia takes two arguments;
-The 1st being the selected instrument tuning,
+Syrinx::compendia takes two arguments;  
+The 1st being the selected instrument tuning,  
 and the 2nd is a list containing key signs.
 
     Syrinx::compendia cgdae $clefs
 
-Syrinx::atrium is the main entry point;
-Taking a list argument of which the 1st
-item is the selected instrument tuning
+Syrinx::atrium is the main entry point;  
+Taking a list argument of which the 1st  
+item is the selected instrument tuning  
 and the remaining items are key signs.
 
     Syrinx::atrium {cgdae j3 j6 j2 j23}
 
-Syrinx::atrium with no arguments prints
+Syrinx::atrium with no arguments prints  
 a formatted menu of keys signs to screen.
 
     Syrinx::atrium
