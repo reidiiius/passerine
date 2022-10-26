@@ -51,12 +51,12 @@ Estrilda::oscines holds an array of key-value pairs.
 
     parray Estrilda::oscines
 
-Retrieve keys signs and store them in a sorted list.
+Retrieve key signs and store them in a sorted list.
 
     set clefs [lsort [array names Estrilda::oscines]]
 
-Estrilda::signboard takes a list argument  
-and prints the contents formatted to screen.
+Estrilda::signboard takes a list argument of which  
+it sorts and prints contents formatted to screen.
 
     Estrilda::signboard $clefs
 
@@ -72,7 +72,7 @@ and the second is a boolean switch.
 
     Estrilda::correlate HgAu true
 
-Transition from metallic symbols is default.
+Boolean false for nonmetallic symbols is default.
 
     Estrilda::correlate vu false
 
@@ -129,12 +129,12 @@ Ploceus::tributes holds state set by fingerboard call.
     parray Ploceus::tributes
 
 Ploceus::utensils stores mapping of pitch to numeric indices  
-used by string range tunings held in Ploceus::tributes(pegs)
+used by string range tuners held by Ploceus::tributes(pegs)
 
     parray Ploceus::utensils
 
-Ploceus::headstock takes an argument which represents pitch  
-and returns an altered string from Ploceus::tributes(crow)
+Ploceus::headstock takes an argument which represents pitch and  
+returns an altered copy of the value in Ploceus::tributes(crow)
 
     Ploceus::headstock En
 
@@ -168,11 +168,11 @@ and the remaining items are key signs.
     Syrinx::atrium {beadgcf n0 k6 j3 j6 j2}
 
 Syrinx::atrium with no arguments prints  
-a formatted menu of keys signs to screen.
+a formatted menu of key signs to screen.
 
     Syrinx::atrium
 
-Leave the interactive environment.
+Leave interactive session.
 
     exit
 
