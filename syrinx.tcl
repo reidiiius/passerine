@@ -8,7 +8,7 @@ apply {{files} {
 
   if {[file exists $perch]} {
     source $perch
-    guardian $files
+    Grackle::guardian $files
   } else {
     puts stderr "$perch not found"
     exit 1

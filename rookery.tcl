@@ -2,16 +2,25 @@
 
 namespace eval ::Rookery {
 
-  # configure
+  # stores the name of target directory
   variable cabinet
+
+  # stores the path to target file
   variable pathway
+
+  # stores the name of file to be written to
   variable postdoc
+
+  # stores the name of the source file
+  # which holds the content to be copied
   variable section
 
   set cabinet robin
   set postdoc egretta.tcl
   set pathway [file nativename [file join $cabinet $postdoc]]
 
+  # takes two file arguments and copies
+  # the content of capsule to destiny
   proc transcribe {capsule destiny} {
     if [file exists $capsule] then {
       set chandle [open $capsule r]
@@ -38,6 +47,9 @@ namespace eval ::Rookery {
     return
   }
 
+  # takes two file and one integer argument
+  # and copies the content starting at line
+  # number of file capsule to file destiny
   proc seditorial {capsule destiny {erasure 0}} {
     if [file exists $capsule] then {
       set chandle [open $capsule r]
