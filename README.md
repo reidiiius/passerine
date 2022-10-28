@@ -45,7 +45,7 @@ Tcl interactive session
 
 Evaluate contents of estrilda.tcl as a script.
 
-    source estrilda.tcl
+    source estrilda.tcl; puts $Estrilda::surname
 
 Estrilda::oscines holds an array of key-value pairs.
 
@@ -76,7 +76,7 @@ Boolean false for nonmetallic symbols is default.
 
     Estrilda::correlate vu false
 
-Retrieve the string value of selected key sign.
+Retrieve and store string value of selected key sign.
 
     set harminor $Estrilda::oscines(j36)
 
@@ -90,7 +90,7 @@ Replace substrings in harminor based on pairs.
 
 Evaluate contents of ploceus.tcl as a script.
 
-    source ploceus.tcl
+    source ploceus.tcl; puts $Ploceus::surname
 
 Ploceus::machines holds a list of tunings.
 
@@ -105,16 +105,11 @@ which represents seconds milliseconds or microseconds.
 
     set Ploceus::sequence [clock milliseconds]
 
-Retrieve and store string value of selected key sign.
+Ploceus::fingerboard takes two arguments;  
+The first is the key denoting accidentals,  
+the second is the selected tuning.
 
-    set crow $Estrilda::oscines($sign)
-
-Ploceus::fingerboard takes three arguments;  
-The first is the sign denoting accidentals,  
-the second is the string value retrieved,  
-and the third is the selected tuning.
-
-    Ploceus::fingerboard $sign $crow $harp
+    Ploceus::fingerboard $sign $harp
 
 Ploceus::metallic stores a boolean value.
 
@@ -122,7 +117,11 @@ Ploceus::metallic stores a boolean value.
 
 This switch facilitates symbolic transition.
 
-    Ploceus::fingerboard $sign $crow $harp
+    Ploceus::fingerboard $sign $harp
+
+Toggle betwixt cloaks by flipping Ploceus::metallic boolean.
+
+    set Ploceus::metallic false
 
 Ploceus::tributes holds state set by fingerboard call.
 
@@ -133,26 +132,29 @@ used by string range tuners held by Ploceus::tributes(pegs)
 
     parray Ploceus::utensils
 
+Ploceus::monotonic takes a pitch argument that pairs with a  
+numeric value in utensils which will be used as a range index  
+to splice and concatenate the copied value of tributes(crow).
+
+    foreach peg [lsort [array names Ploceus::utensils]] {
+      puts [string cat $peg: '[Ploceus::monotonic $peg]']
+    }
+
 Ploceus::headstock takes an argument which represents pitch and  
 returns an altered copy of the value in Ploceus::tributes(crow)
 
     Ploceus::headstock En
 
-Toggle betwixt cloaks by flipping Ploceus::metallic boolean.
+Ploceus::layout takes no arguments but acquires values stored  
+in tributes(sign) tributes(harp) and sequence to format and  
+print key-tuning-serial then iterating over tributes(pegs)  
+formats and prints the value returned from headstock peg.
 
-    set Ploceus::metallic false
-
-Ploceus::concord provides the ability of transposition.
-
-    set crow [Ploceus::concord Bj]
-
-Call fingerboard to updated state and print to screen.
-
-    Ploceus::fingerboard $sign $crow $harp
+    Ploceus::layout
 
 Evaluate contents of syrinx.tcl as a script.
 
-    source syrinx.tcl
+    source syrinx.tcl; puts $Syrinx::surname
 
 Syrinx::compendia takes two arguments;  
 The 1st being the selected instrument tuning,  

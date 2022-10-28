@@ -1,6 +1,6 @@
 #! /usr/bin/env tclsh
 
-namespace eval Rookery {
+namespace eval ::Rookery {
 
   # configure
   variable cabinet

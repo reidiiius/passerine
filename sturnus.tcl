@@ -1,7 +1,10 @@
 
-namespace eval Sturnus {
+namespace eval ::Sturnus {
 
   namespace export *
+
+  # name of current namespace
+  set surname [namespace tail [namespace current]]
 
   # limit quantity of standard input characters
   proc sentinel {{argots {}} {caps 24}} {

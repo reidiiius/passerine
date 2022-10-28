@@ -19,8 +19,8 @@ namespace eval ::Corvus::test {
     source estrilda.tcl
   } {}
 
-  test estrilda-1.1 {Estrilda existence} {
-    namespace exists Estrilda
+  test estrilda-1.1 {::Estrilda existence} {
+    namespace exists ::Estrilda
   } 1
 
   test estrilda-1.2 {surname value} {
@@ -129,8 +129,8 @@ namespace eval ::Corvus::test {
     source ploceus.tcl
   } {}
 
-  test ploceus-1.1 {Ploceus existence} {
-    namespace exists Ploceus
+  test ploceus-1.1 {::Ploceus existence} {
+    namespace exists ::Ploceus
   } 1
 
   test ploceus-1.2 {Ploceus::machines has 5 elements} {
@@ -177,12 +177,11 @@ namespace eval ::Corvus::test {
 
   test ploceus-2.2 {fingerboard returns null} -setup {
     set sign k2j6
-    set crow $Estrilda::oscines($sign)
     set harp beadgcf
   } -body {
-    Ploceus::fingerboard $sign $crow $harp
+    Ploceus::fingerboard $sign $harp
   } -cleanup {
-    unset crow harp sign
+    unset harp sign
   } -result {}
 
   puts ""
@@ -195,8 +194,8 @@ namespace eval ::Corvus::test {
     source sturnus.tcl
   } {}
 
-  test sturnus-1.1 {Sturnus existence} {
-    namespace exists Sturnus
+  test sturnus-1.1 {::Sturnus existence} {
+    namespace exists ::Sturnus
   } 1
 
   test sturnus-1.2 {governor passed empty tuple} {
@@ -260,8 +259,8 @@ namespace eval ::Corvus::test {
     source syrinx.tcl
   } {}
 
-  test syrinx-1.1 {Syrinx existence} {
-    namespace exists Syrinx
+  test syrinx-1.1 {::Syrinx existence} {
+    namespace exists ::Syrinx
   } 1
 
   test syrinx-1.2 {Syrinx dateline returns iso-8601 timestamp} {
@@ -291,7 +290,7 @@ namespace eval ::Corvus::test {
 
   puts [string repeat " ~" 36]
 
-  foreach moniker {Syrinx Sturnus Ploceus Estrilda} {
+  foreach moniker {::Syrinx ::Sturnus ::Ploceus ::Estrilda} {
     namespace delete $moniker
   }
 

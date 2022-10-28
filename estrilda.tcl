@@ -1,5 +1,5 @@
 
-namespace eval Estrilda {
+namespace eval ::Estrilda {
 
   namespace export *
 

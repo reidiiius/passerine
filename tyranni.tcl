@@ -41,7 +41,7 @@ namespace eval ::Tyranni::test {
   puts "\n\t\t| Estrilda Test |\n"
   roost 1
 
-  test estrilda-1.0 {Estrilda existence} {
+  test estrilda-1.0 {::Estrilda existence} {
     namespace exists ::Estrilda
   } 1
 
@@ -149,7 +149,7 @@ namespace eval ::Tyranni::test {
   puts "\n\t\t| Ploceus Test |\n"
   roost 1
 
-  test ploceus-1.0 {Ploceus existence} {
+  test ploceus-1.0 {::Ploceus existence} {
     namespace exists ::Ploceus
   } 1
 
@@ -197,12 +197,11 @@ namespace eval ::Tyranni::test {
 
   test ploceus-2.1 {fingerboard returns null} -setup {
     set sign k2j6
-    set crow $Estrilda::oscines($sign)
     set harp beadgcf
   } -body {
-    Ploceus::fingerboard $sign $crow $harp
+    Ploceus::fingerboard $sign $harp
   } -cleanup {
-    unset crow harp sign
+    unset harp sign
   } -result {}
 
   puts ""
@@ -213,7 +212,7 @@ namespace eval ::Tyranni::test {
   puts "\n\t\t| Sturnus Test |\n"
   roost 1
 
-  test sturnus-1.0 {Sturnus existence} {
+  test sturnus-1.0 {::Sturnus existence} {
     namespace exists ::Sturnus
   } 1
 
@@ -276,7 +275,7 @@ namespace eval ::Tyranni::test {
   puts "\n\t\t| Syrinx Test |\n"
   roost 1
 
-  test syrinx-1.0 {Syrinx existence} {
+  test syrinx-1.0 {::Syrinx existence} {
     namespace exists ::Syrinx
   } 1
 

@@ -1,11 +1,12 @@
 
-namespace eval Ploceus {
+namespace eval ::Ploceus {
 
-  namespace export fingerboard
+  namespace export *
 
   variable machines
   variable metallic
   variable sequence
+  variable surname
   variable tributes
   variable utensils
 
@@ -17,6 +18,9 @@ namespace eval Ploceus {
 
   # current time as integer
   set sequence [clock milliseconds]
+
+  # name of current namespace
+  set surname [namespace tail [namespace current]]
 
   # stack state buffers
   array set tributes {
@@ -39,7 +43,7 @@ namespace eval Ploceus {
     Fk 30
   }
 
-  proc concord {{pitch Cn}} {
+  proc monotonic {{pitch Cn}} {
     variable utensils
     variable tributes
 
@@ -56,7 +60,7 @@ namespace eval Ploceus {
     variable metallic
 
     if {$metallic} {
-      set yarn [concord $pitch]
+      set yarn [monotonic $pitch]
     } else {
       # substring replacement mapping pairs
       if [namespace exists ::Estrilda] {
@@ -65,7 +69,7 @@ namespace eval Ploceus {
         set trans {_ -}
       }
 
-      set yarn [string map $trans [concord $pitch]]
+      set yarn [string map $trans [monotonic $pitch]]
     }
 
     return $yarn
@@ -76,7 +80,7 @@ namespace eval Ploceus {
     variable sequence
 
     puts [format "\t%s-%s-i%u" $tributes(sign) $tributes(harp) $sequence]
-    foreach pitch $tributes(pegs) {
+    foreach pitch [lreverse $tributes(pegs)] {
       puts [format "\t%s" [headstock $pitch]]
     }
 
@@ -84,19 +88,33 @@ namespace eval Ploceus {
   }
 
   # setter for tributes then calls layout
-  proc fingerboard {{sign ""} {crow ""} {harp ""}} {
+  proc fingerboard {{sign ""} {harp ""}} {
+    if [namespace exists ::Estrilda] {
+      namespace upvar ::Estrilda oscines bank
+    } else {
+      puts stderr "\tEstrilda not present!\n"
+      exit 1
+    }
+
+    if {[info exists bank($sign)]} {
+      set crow $bank($sign)
+    } else {
+      puts "\t$sign ?" 
+      return
+    }
+
     set clef [string length $sign]
-    set cols [string length $crow]
     set lute [string length $harp]
+    set cols [string length $crow]
 
     if {($clef < 1) || ($clef > 9)} {
       set sign z0
     }
-    if {($cols < 36) || ($cols > 72)} {
-      set crow [string repeat "____ " 12]
+    if {($lute < 1) || ($lute > 16)} {
       set harp unison
     }
-    if {($lute < 1) || ($lute > 16)} {
+    if {($cols < 36) || ($cols > 72)} {
+      set crow [string repeat "____ " 12]
       set harp unison
     }
 
@@ -104,27 +122,27 @@ namespace eval Ploceus {
 
     variable tributes
     set tributes(sign) $sign
-    set tributes(crow) $crow
     set tributes(harp) $harp
+    set tributes(crow) $crow
 
     switch $harp {
       beadgcf {
-        lset tributes(pegs) [lreverse {Bn En An Dn Gn Cn Fn}]
+        lset tributes(pegs) {Bn En An Dn Gn Cn Fn}
       }
       bfbfb {
         lset tributes(pegs) {Bn Fn Bn Fn Bn}
       }
       cgdae {
-        lset tributes(pegs) [lreverse {Cn Gn Dn An En}]
+        lset tributes(pegs) {Cn Gn Dn An En}
       }
       eadgbe {
-        lset tributes(pegs) [lreverse {En An Dn Gn Bn En}]
+        lset tributes(pegs) {En An Dn Gn Bn En}
       }
       fkbjdn {
-        lset tributes(pegs) [lreverse {Fk Bj Dn Fk Bj Dn}]
+        lset tributes(pegs) {Fk Bj Dn Fk Bj Dn}
       }
       default {
-        lset tributes(pegs) [list Cn]
+        lset tributes(pegs) {Cn}
       }
     }
 
