@@ -4,19 +4,21 @@ namespace eval ::Estrilda {
   namespace export *
 
   variable oscines
-  variable surname
   variable transits
 
   # initialization
   array set oscines {}
   set oscines(z0) [string repeat "____ " 12]
 
-  # name of current namespace
-  set surname [namespace tail [namespace current]]
-
   # substring replacement mapping pairs
   set transits {
     __ _ Ag s Au u Cu r Fe q Hg v Mn p Np y Pb w Pu z Sn t Ti o Ur x
+  }
+
+  # tail name of current qualified namespace
+  proc surname {} {
+    set curtail [namespace tail [namespace current]]
+    return $curtail
   }
 
   proc signboard {{clefs {}}} {
@@ -24,17 +26,16 @@ namespace eval ::Estrilda {
       set signs [lsort $clefs]
     } else {
       variable oscines
-      variable surname
 
       if {[array exists oscines]} {
         if {[array size oscines]} {
           set signs [lsort [array names oscines]]
         } else {
-          puts stderr "${surname}::oscines is empty"
+          puts stderr "[surname]::oscines is empty"
           exit 1
         }
       } else {
-        puts stderr "${surname}::oscines not found"
+        puts stderr "[surname]::oscines not found"
         exit 1
       }
     }
@@ -63,12 +64,10 @@ namespace eval ::Estrilda {
 
       unset egg
     } else {
-      variable surname
-
-      puts stderr "${surname}::research passed an empty tuple"
+      puts stderr "[surname]::research passed an empty tuple"
 
       unset clutch
-      return 1
+      exit 1
     }
 
     if {[llength $clutch]} {

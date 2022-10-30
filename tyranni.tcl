@@ -45,8 +45,8 @@ namespace eval ::Tyranni::test {
     namespace exists ::Estrilda
   } 1
 
-  test estrilda-1.1 {surname value} {
-    string tolower $Estrilda::surname
+  test estrilda-1.1 {surname retail} {
+    string tolower [Estrilda::surname]
   } estrilda
 
   test estrilda-1.15 {transits has 13 pairs} {
@@ -122,9 +122,9 @@ namespace eval ::Tyranni::test {
     unset clefs
   } -result {}
 
-  test estrilda-2.2 {research passed empty tuple} {
-    Estrilda::research {} 99
-  } 1
+  test estrilda-2.2 {research valueless} {
+    Estrilda::research {0}
+  } {}
 
   test estrilda-2.3 {research matchless} -setup {
     set clefs [array names Estrilda::oscines]
@@ -189,9 +189,9 @@ namespace eval ::Tyranni::test {
     array exists Ploceus::utensils
   } 1
 
-  test ploceus-2.0 {utensils has 9 records} {
+  test ploceus-2.0 {utensils has 17 records} {
     array size Ploceus::utensils
-  } 9
+  } 17
 
   puts ""
 

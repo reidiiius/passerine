@@ -45,7 +45,7 @@ Tcl interactive session
 
 Evaluate contents of estrilda.tcl as a script.
 
-    source estrilda.tcl; puts $Estrilda::surname
+    source estrilda.tcl; Estrilda::surname
 
 Estrilda::oscines holds an array of key-value pairs.
 
@@ -90,7 +90,7 @@ Replace substrings in harminor based on pairs.
 
 Evaluate contents of ploceus.tcl as a script.
 
-    source ploceus.tcl; puts $Ploceus::surname
+    source ploceus.tcl; Ploceus::surname
 
 Ploceus::machines holds a list of tunings.
 
@@ -145,16 +145,14 @@ returns an altered copy of the value in Ploceus::tributes(crow)
 
     Ploceus::headstock En
 
-Ploceus::layout takes no arguments but acquires values stored  
-in tributes(sign) tributes(harp) and sequence to format and  
-print key-tuning-serial then iterating over tributes(pegs)  
-formats and prints the value returned from headstock peg.
+Ploceus::layout takes no arguments but acquires values stored in  
+tributes and sequence of which it formats and prints to screen.
 
     Ploceus::layout
 
 Evaluate contents of syrinx.tcl as a script.
 
-    source syrinx.tcl; puts $Syrinx::surname
+    source syrinx.tcl; Syrinx::surname
 
 Syrinx::compendia takes two arguments;  
 The 1st being the selected instrument tuning,  

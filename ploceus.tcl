@@ -6,7 +6,6 @@ namespace eval ::Ploceus {
   variable machines
   variable metallic
   variable sequence
-  variable surname
   variable tributes
   variable utensils
 
@@ -19,9 +18,6 @@ namespace eval ::Ploceus {
   # current time as integer
   set sequence [clock milliseconds]
 
-  # name of current namespace
-  set surname [namespace tail [namespace current]]
-
   # stack state buffers
   array set tributes {
     sign ""
@@ -32,30 +28,66 @@ namespace eval ::Ploceus {
 
   # elemental field indices
   array set utensils {
-    Bj 50
-    Fn 25
     Cn 0
-    Gn 35
+    Ck 5
+    Dj 5
     Dn 10
-    An 45
+    Dk 15
+    Ej 15
     En 20
-    Bn 55
+    Fn 25
     Fk 30
+    Gj 30
+    Gn 35
+    Gk 40
+    Aj 40
+    An 45
+    Ak 50
+    Bj 50
+    Bn 55
   }
 
+  # tail name of current qualified namespace
+  proc surname {} {
+    set curtail [namespace tail [namespace current]]
+    return $curtail
+  }
+
+  # Takes a digraph argument which represents pitch and pairs with
+  # an integer value in utensils. The integer acts as a range index
+  # to splice and concatenate the copied value from tributes(crow)
   proc monotonic {{pitch Cn}} {
     variable utensils
     variable tributes
 
-    set wire [string cat [
-        string range $tributes(crow) $utensils($pitch) end ] [
-        string range $tributes(crow) 0 [expr $utensils($pitch) - 1]
+    if {[scan $pitch "%c%c" head tail] != 2} then {
+      error "invalid pitchfork"
+    }
+    if {($head < 65) || ($head > 72)} then {
+      error "invalid monotone"
+    }
+    if {($tail < 106) || ($tail > 110)} then {
+      error "invalid accidental"
+    }
+
+    unset head tail
+
+    if [info exists utensils($pitch)] then {
+      set wire [string cat [
+          string range $tributes(crow) $utensils($pitch) end ] [
+          string range $tributes(crow) 0 [expr $utensils($pitch) - 1]
+        ]
       ]
-    ]
+    } else {
+      set wire [string repeat "____ " 12]
+    }
 
     return $wire
   }
 
+  # Takes a digraph argument which represents pitch.
+  # Depending on the boolean value stored by metallic,
+  # latter branch processes return value from monotonic
   proc headstock {{pitch Cn}} {
     variable metallic
 

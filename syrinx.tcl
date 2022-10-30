@@ -23,8 +23,11 @@ namespace eval ::Syrinx {
 
   namespace export atrium
 
-  # name of current namespace
-  set surname [namespace tail [namespace current]]
+  # tail name of current qualified namespace
+  proc surname {} {
+    set curtail [namespace tail [namespace current]]
+    return $curtail
+  }
 
   # iso-8601 timestamp
   proc dateline {} {
