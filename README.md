@@ -127,8 +127,7 @@ Ploceus::tributes holds state set by fingerboard call.
 
     parray Ploceus::tributes
 
-Ploceus::utensils stores mapping of pitch to numeric indices  
-used by string range tuners held by Ploceus::tributes(pegs)
+Ploceus::utensils stores mapping of pitch to numeric indices
 
     parray Ploceus::utensils
 

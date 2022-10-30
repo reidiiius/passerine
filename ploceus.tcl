@@ -12,7 +12,7 @@ namespace eval ::Ploceus {
   # instrument tunings
   set machines {beadgcf bfbfb cgdae eadgbe fkbjdn}
 
-  # configure digraphs
+  # tonal symbols toggle
   set metallic false
 
   # current time as integer
@@ -145,17 +145,17 @@ namespace eval ::Ploceus {
     }
 
     set clef [string length $sign]
-    set lute [string length $harp]
     set cols [string length $crow]
+    set lute [string length $harp]
 
     if {($clef < 1) || ($clef > 9)} {
       set sign z0
     }
-    if {($lute < 1) || ($lute > 16)} {
-      set harp unison
-    }
     if {($cols < 36) || ($cols > 72)} {
       set crow [string repeat "____ " 12]
+      set harp unison
+    }
+    if {($lute < 1) || ($lute > 16)} {
       set harp unison
     }
 
@@ -163,8 +163,8 @@ namespace eval ::Ploceus {
 
     variable tributes
     set tributes(sign) $sign
-    set tributes(harp) $harp
     set tributes(crow) $crow
+    set tributes(harp) $harp
 
     switch $harp {
       beadgcf {
