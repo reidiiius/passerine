@@ -126,10 +126,10 @@ namespace eval ::Ploceus {
     return
   }
 
-  # takes two arguments, the first is a key denoting
-  # accidentals and the second is a selected tuning,
+  # takes two arguments, first a selected tuning,
+  # and the second is a key denoting accidentals,
   # sets the values of tributes then calls layout
-  proc fingerboard {{sign ""} {harp ""}} {
+  proc fingerboard {{harp ""} {sign ""}} {
     if [namespace exists ::Estrilda] {
       namespace upvar ::Estrilda oscines bank
     } else {

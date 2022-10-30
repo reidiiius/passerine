@@ -106,10 +106,10 @@ which represents seconds milliseconds or microseconds.
     set Ploceus::sequence [clock milliseconds]
 
 Ploceus::fingerboard takes two arguments;  
-The first is the key denoting accidentals,  
-the second is the selected tuning.
+The first is the selected tuning, and the  
+second is the key denoting accidentals.
 
-    Ploceus::fingerboard $sign $harp
+    Ploceus::fingerboard $harp $sign
 
 Ploceus::metallic stores a boolean value.
 
@@ -117,7 +117,7 @@ Ploceus::metallic stores a boolean value.
 
 This switch facilitates symbolic transition.
 
-    Ploceus::fingerboard $sign $harp
+    Ploceus::fingerboard $harp $sign
 
 Toggle betwixt cloaks by flipping Ploceus::metallic boolean.
 

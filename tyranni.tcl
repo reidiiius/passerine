@@ -196,10 +196,10 @@ namespace eval ::Tyranni::test {
   puts ""
 
   test ploceus-2.1 {fingerboard returns null} -setup {
-    set sign k2j6
     set harp beadgcf
+    set sign k2j6
   } -body {
-    Ploceus::fingerboard $sign $harp
+    Ploceus::fingerboard $harp $sign
   } -cleanup {
     unset harp sign
   } -result {}

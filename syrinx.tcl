@@ -45,7 +45,7 @@ namespace eval ::Syrinx {
     if [llength $kids] then {
       puts ""
       foreach sign $kids {
-        ::Ploceus::fingerboard $sign $harp
+        ::Ploceus::fingerboard $harp $sign
         puts ""
       }
 
