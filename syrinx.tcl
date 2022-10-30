@@ -37,7 +37,10 @@ namespace eval ::Syrinx {
     return $meantime
   }
 
-  # display matrices of chosen tuning and keys
+  # display matrices of chosen tuning and keys,
+  # secondary process which takes two arguments,
+  # the 1st being the selected instrument tuning,
+  # and the 2nd is a list containing key signs
   proc compendia {{harp ""} {kids {}}} {
     if [llength $kids] then {
       puts ""
@@ -53,7 +56,10 @@ namespace eval ::Syrinx {
     return
   }
 
-  # entryway
+  # main entry point for application,
+  # taking a list argument of which the 1st
+  # item is the selected instrument tuning
+  # and the remaining items are key signs
   proc atrium {{argots {}}} {
     set amount [llength $argots]
 
@@ -130,6 +136,7 @@ namespace eval ::Syrinx {
     return
   } ;# atrium
 
+  # entryway
   atrium $argv
 
 } ;# close Syrinx

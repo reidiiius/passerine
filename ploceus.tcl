@@ -53,8 +53,8 @@ namespace eval ::Ploceus {
     return $curtail
   }
 
-  # Takes a digraph argument which represents pitch and pairs with
-  # an integer value in utensils. The integer acts as a range index
+  # takes a digraph argument which represents pitch and pairs with
+  # an integer value in utensils, the integer acts as a range index
   # to splice and concatenate the copied value from tributes(crow)
   proc monotonic {{pitch Cn}} {
     variable utensils
@@ -68,6 +68,9 @@ namespace eval ::Ploceus {
     }
     if {($tail < 106) || ($tail > 110)} then {
       error "invalid accidental"
+    }
+    if {[string length $pitch] > 2} then {
+      set pitch [format "%c%c" $head $tail]
     }
 
     unset head tail
@@ -85,8 +88,8 @@ namespace eval ::Ploceus {
     return $wire
   }
 
-  # Takes a digraph argument which represents pitch.
-  # Depending on the boolean value stored by metallic,
+  # takes a digraph argument which represents pitch,
+  # depending on the boolean value stored by metallic,
   # latter branch processes return value from monotonic
   proc headstock {{pitch Cn}} {
     variable metallic
@@ -107,6 +110,10 @@ namespace eval ::Ploceus {
     return $yarn
   }
 
+  # dependent values stored in tributes and sequence,
+  # format and print key-tuning-serial headline then
+  # iterate over pegs passing each pitch to headstock,
+  # format and print the return value from headstock
   proc layout {} {
     variable tributes
     variable sequence
@@ -119,7 +126,9 @@ namespace eval ::Ploceus {
     return
   }
 
-  # setter for tributes then calls layout
+  # takes two arguments, the first is a key denoting
+  # accidentals and the second is a selected tuning,
+  # sets the values of tributes then calls layout
   proc fingerboard {{sign ""} {harp ""}} {
     if [namespace exists ::Estrilda] {
       namespace upvar ::Estrilda oscines bank

@@ -21,6 +21,8 @@ namespace eval ::Estrilda {
     return $curtail
   }
 
+  # takes a list argument of which it sorts
+  # and prints contents formatted to screen
   proc signboard {{clefs {}}} {
     if {[llength $clefs]} {
       set signs [lsort $clefs]
